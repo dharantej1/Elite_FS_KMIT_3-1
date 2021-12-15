@@ -61,3 +61,35 @@ for i in n:
     if(ord(i)>96):
         l.append(i)
 print(functions(l))
+
+case =1
+input =internationalization i12iz4n
+output =true
+
+case =2
+input =apple a2e
+output =false
+
+case =3
+input =testcase t2t2se
+output =true
+
+case =4
+input =testcase t2t3se
+output =false
+
+case =5
+input =internationalization i12iz5n
+output =false
+
+case =6
+input =apple a1p1e
+output =true
+
+case =7
+input =problemisvalidwordabbreviation p2b10w11t2n
+output =true
+
+case =8
+input =problemisvalidwordabbreviation p2b10w10t2n
+output =false
