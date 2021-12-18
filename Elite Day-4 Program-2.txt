@@ -1,0 +1,57 @@
+/*
+There are some Warships, approaching the borders of India and curretly
+situated in Bay of Bengal. One of the secret agent sent the picture of the warships.
+ 
+The picture size is M * N, and he has marked each 1*1 part of the picture either 
+with the Warships as 'W' or an empty place as 'E'. The Indian Navy want to destroy
+those Warships using Torpedos, with one Torpedo you can destroy one Warship.
+
+ The Warships are mentioned either horizontally or vertically in the picture. 
+ And it is also mentioned that there are no adjacent warships.
+
+Your target is find the number of Torpedos required to destroy all the Warships.
+
+Input Format:
+-------------
+ Line-1: Two space separated integers M and N.
+ Next M lines: N space separated characters, either W or E
+
+Output Format:
+--------------
+Print an integer, number of torpedos required.
+  
+ Sample Input-1:
+ ---------------
+ 2 3
+ W E E
+ W E E
+
+Sample Output-1:
+ ----------------
+ 1
+
+
+ Sample Input-2:
+---------------
+ 4 5
+ W E E W W
+ W E W E E
+ W E W E W
+ W E W E W
+ 
+Sample Output-2:
+----------------
+ 4
+
+*/
+
+r,c=map(int,input().split())
+war=[]
+for i in range(r):
+    war.append(input().split())
+t=0
+for i in range(r):
+    for j in range(c):
+        if war[i][j]=="W" and (i==0 or war[i-1][j]=="E") and (j==0 or war[i][j-1]=="E"):
+            t+=1
+print(t)

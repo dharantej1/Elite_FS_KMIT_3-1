@@ -1,0 +1,44 @@
+/*
+There are a group of kids playing a game in a circle.This game is to check their
+Arithmetic division skills.We will start the game by selecting a kid and he has 
+to say 1 to start the game and the next kid turn arrives he has to say next 
+number but with the following rules.
+   - if number is divisible by 3 then the answer is "Hi".
+   - if number is divisible by 5 then the answer is "Hello".
+   - if number is divisible by both 3 and 5 then the answer is "HiHello".
+   - else the answer is the number itself.
+
+ Given a number N , return a string array result[] (1-indexed),which consists the 
+ answers from kid-1 to kid-N.
+
+Input Format:
+-------------
+Line-1: An integer N.
+
+Output Format:
+--------------
+Print a string array[].
+
+Constraints:
+• 1 <= n <= 10^4
+ 
+Sample Input-1:
+---------------
+4
+
+Sample Output-1:
+----------------
+1 2 Hi 4 
+
+
+Sample Input-2:
+---------------
+15
+
+Sample Output-2:
+----------------
+1 2 Hi 4 Hello Hi 7 8 Hi Hello 11 Hi 13 14 HiHello 
+ 
+
+
+*/
