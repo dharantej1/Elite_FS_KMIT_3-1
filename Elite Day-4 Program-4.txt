@@ -42,3 +42,160 @@ Sample Output-2:
 
 
 */
+
+import java.util.*;
+ class CommonData
+ {
+     private int i=1,n;
+     public CommonData(int n){
+         this.n=n;
+     }
+     synchronized  int get(){
+         if(i<=n){
+             return i;
+         }
+         else{
+             return-1;
+         }
+     }
+     synchronized void set()
+     {
+         i++;
+     }
+ }
+ class Thread1 implements Runnable
+ {
+    CommonData data;
+    Thread1(CommonData obj){
+        data=obj;
+    }
+    public void run()
+    {
+        synchronized(data){
+            while(data.get()!=-1){
+                if(data.get()%3!=0 && data.get()%5!=0){
+                    System.out.print(data.get()+" ");
+                    data.set();
+                    data.notifyAll();
+                }
+                else{
+                    try{
+                    data.wait();}
+                    catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
+                }
+            }
+        }
+
+    }
+
+
+ }
+ class Thread2 implements Runnable
+ {
+    CommonData data;
+    Thread2(CommonData obj){
+        data=obj;
+    }
+    public void run()
+    {
+        synchronized(data){
+            while(data.get()!=-1){
+                if(data.get()%3==0 && data.get()%5!=0){
+                    System.out.print("Hi ");
+                    data.set();
+                    data.notifyAll();
+                }
+                else{
+                    try{
+                    data.wait();}
+                    catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
+                }
+            }
+        }
+
+    }
+
+
+ }
+ class Thread3 implements Runnable
+ {
+    CommonData data;
+    Thread3(CommonData obj){
+        data=obj;
+    }
+    public void run()
+    {
+        synchronized(data){
+            while(data.get()!=-1){
+                if(data.get()%3!=0 && data.get()%5==0){
+                    System.out.print("Hello ");
+                    data.set();
+                    data.notifyAll();
+                }
+                else{
+                    try{
+                    data.wait();}
+                    catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
+                }
+            }
+        }
+
+    }
+
+
+ }
+ class Thread4 implements Runnable
+ {
+    CommonData data;
+    Thread4(CommonData obj){
+        data=obj;
+    }
+    public void run()
+    {
+        synchronized(data){
+            while(data.get()!=-1){
+                if(data.get()%3==0 && data.get()%5==0){
+                    System.out.println("HiHello ");
+                    data.set();
+                    data.notifyAll();
+                }
+                else{
+                    try{
+                    data.wait();}
+                    catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
+                }
+            }
+        }
+
+    }
+
+
+ }
+  
+ class sol {
+     public static void main(String args[])
+     {
+         Scanner sc=new Scanner(System.in);
+         CommonData obj =new CommonData(sc.nextInt());
+         Thread t1=new Thread(new Thread1(obj));
+         Thread t2=new  Thread(new Thread2(obj));
+         Thread t3=new  Thread(new Thread3(obj));
+         Thread t4=new  Thread(new Thread4(obj));
+         t1.start();
+         t2.start();
+         t3.start();
+         t4.start();
+         
+
+
+
+     }
+ }
