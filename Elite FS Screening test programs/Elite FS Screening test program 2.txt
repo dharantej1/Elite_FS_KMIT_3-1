@@ -1,0 +1,22 @@
+def solve(s,n):
+    n = int(n)
+    for _ in range(n-1):
+        temp = ''
+        i = 0
+        s = str(s)
+        while(i < len(s)):
+            curr = s[i]
+            p = i + 1
+            coun = 1
+            while(p<len(s) and s[p] == curr):
+                coun += 1
+                p+=1
+            # print(s[i], '<-', coun)
+            # print(coun, s[p-1])
+            temp += str(coun)+ s[p-1]
+            i = p
+        s = int(temp)
+    return temp
+
+s, n = input().split()
+print(solve(s,n))

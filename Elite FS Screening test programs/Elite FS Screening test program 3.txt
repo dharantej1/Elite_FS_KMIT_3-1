@@ -1,0 +1,20 @@
+def solve(n,l):
+    i = 0
+    ind = -999999999999999999999
+    cost = 0
+    while(i<n):
+        m = min(l[i])
+        if l[i].index(m) == ind:
+            l[i][l[i].index(m)] = 99999
+            m = min(l[i])
+        ind = l[i].index(m)
+        # print(m)  
+        cost += m
+        i += 1
+    return cost
+    
+n = int(input())
+l = []
+for i in range(n):
+    l.append(list(map(int, input().split())))
+print(solve(n,l))
