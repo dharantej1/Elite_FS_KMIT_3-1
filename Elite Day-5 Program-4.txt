@@ -53,4 +53,83 @@ Explanation:
 ------------
 "KmitNgit" is being output 2 times.
 
+import java.util.*;
 
+class KmitNgit{
+    int n;
+    int flag=0;
+    KmitNgit(int n){
+        this.n = n;
+    }
+    synchronized public void kmit() {
+    for (int i = 0; i < n; i++) {
+        while(flag==1){
+            try{
+                this.wait();
+            }
+            catch(Exception e){
+                System.out.print("Error");
+            }
+        }
+      System.out.print("Kmit");
+      flag=1;
+      this.notifyAll();
+      
+    }
+   }
+
+    synchronized public void ngit() {
+    for (int i = 0; i < n; i++) {
+        while(flag==0){
+            try{
+                this.wait();
+            }
+            catch(Exception e){
+                System.out.print("Error");
+            }
+        }
+      System.out.print("Ngit");
+      flag=0;
+      this.notifyAll();
+    }
+    
+   }
+}
+
+class Thread1 implements Runnable {
+    KmitNgit data;
+    Thread1(KmitNgit n){
+        this.data = n;
+    }
+    @Override
+    public void run(){
+        synchronized(data){
+           data.kmit();
+        }
+    }
+}
+class Thread2 implements Runnable {
+    KmitNgit data;
+    Thread2(KmitNgit n){
+        this.data = n;
+    }
+    @Override
+    public void run(){
+        synchronized(data){
+            data.ngit();
+        }
+    }
+}
+
+class eday5prog4{
+    
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        KmitNgit kn = new KmitNgit(n);
+        Thread1 t1 = new Thread1(kn);
+        Thread2 t2 = new Thread2(kn);
+        (new Thread(t1)).start();
+        (new Thread(t2)).start();
+    }
+}
