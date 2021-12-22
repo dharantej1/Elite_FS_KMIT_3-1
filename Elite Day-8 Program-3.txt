@@ -1,0 +1,56 @@
+You are given an alphanumeric word W.
+You need find the number of words that can be formed from W.
+
+The words have the following properties:
+    - It should be a substring of W of any length, minimum 1.
+    - All the letters in the word should be same.
+
+
+Input Format:
+-------------
+Single String W.
+
+Output Format:
+--------------
+Print an integer, the number of words can be formed
+
+
+Sample Input-1:
+---------------
+daddy
+ 
+Sample Output-1:
+----------------
+6
+
+Explanation:
+------------
+The words are : d, a, d, d, dd, y
+
+
+Sample Input-2:
+---------------
+binary11100      --11
+
+Sample Output-2:
+----------------
+15
+
+Explanation:
+------------
+The words are : b, i, n, a, r, y, 1, 1, 1, 11, 11, 111, 0, 0, 00 
+
+
+_str=input()+" "
+sum=0
+low=0
+high=1
+while(high<len(_str)):
+    if(_str[low]==_str[high]):
+        sum+=1
+        high+=1
+    else:
+        sum+=1
+        low+=1
+        high=low+1
+print(sum)

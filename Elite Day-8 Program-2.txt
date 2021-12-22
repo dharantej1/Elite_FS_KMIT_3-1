@@ -1,0 +1,93 @@
+Bindu is passionated about clocks.
+She found a digital clock, which has 2 rows of led lights,
+Top row has 4-leds OOOO indicates hours (0-11).
+Bottom row has 6-leds OOOOOO indicates minutes(0-59).
+Where O -> led is OFF and * -> led is ON.
+
+For Example: 
+If the clock showing the led lights are as follows:
+	OO*O indiactes a binary number, 0010 -> 2 hrs
+	OO*O** indiactes a binary number, 001011 -> 11 minutes.
+So, Time is 2:11
+
+Now, you are given an integer N, number of led lights that are ON.
+Your task is to find, all the  possible times in ascending order.
+
+Format of time should be as follows:
+	- Hours should not have leading 0's.
+	- Minutes should be represented with 2 digits.
+
+Suppose Current time is 1 hous 1 minute
+	- Valid time is 1:01
+	- Invalid time is as follows:- 01:1, 01:01, 1:1
+
+Input Format:
+-------------
+An integer N, number of led lights ON.
+
+Output Format:
+--------------
+Print the list of times in ascending order.
+
+
+Sample Input:
+---------------
+1
+
+Sample Output:
+----------------
+[0:01, 0:02, 0:04, 0:08, 0:16, 0:32, 1:00, 2:00, 4:00, 8:00]
+
+import java.util.*;
+
+class ED8P2{
+    static int n;
+    static SortedSet<String> res = new TreeSet<String>();
+    static int visited[];
+    static String getTime(int[] visited){
+        int h = 0;
+        for(int i=0;i<4;i++){
+            h *= 2;
+            h += visited[i];
+        }
+        int m = 0;
+        for(int i=4;i<10;i++){
+            m *= 2;
+            m += visited[i];
+        }
+        if(m>59 || h>11)
+            return null;
+        String min = m+"";
+        if(min.length()==1){
+            min = 0+""+min;
+        }
+        return h+":"+min;
+    }
+    static void Times(int x){
+        if(x==n){
+            String toAdd = getTime(visited);
+            if(toAdd!=null)
+                res.add(toAdd);
+        }
+        else{
+            for(int i=0;i<10;i++){
+                if(visited[i]!=1){
+                    visited[i] = 1;
+                    Times(x+1);
+                    visited[i] = 0;
+                }    
+            }
+        }
+    }
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        visited = new int[10];
+        Times(0);
+        //Collections.sort(res);
+        for(String str: res){
+            System.out.print(str+" ");
+        }
+    }
+}
+
