@@ -40,7 +40,7 @@ Sample Output:
 
 import java.util.*;
 
-class ED8P2{
+class eday8prog2{
     static int n;
     static SortedSet<String> res = new TreeSet<String>();
     static int visited[];
