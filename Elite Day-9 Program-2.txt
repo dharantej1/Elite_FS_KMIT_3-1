@@ -1,0 +1,75 @@
+Mr Shravan Kumar is given a word W and a list of words[]. He wants to check 
+whether is it possible to create the word W from the given list of words 
+by appending them or not. It is not necessary to use all the words from the list.
+It is allowed to use the words in the list repeatedly if required to form the 
+original W. 
+Your task if to help Mr Nagireddy to find it is possibe to create the oridinal
+word W or not. If possible print true. Otherwise flase.
+
+
+Input Format:
+-------------
+Line-1: A single line word W, Original word.
+Line-2: A single line space space-separated words, list[].
+
+Output Format:
+--------------
+Print a boolean value.
+
+Sample Input-1:
+---------------
+capable
+cap cable ap able 
+
+Sample Output-1:
+----------------
+true
+
+
+Sample Input-2:
+---------------
+capable
+cable ap able
+
+Sample Output-2:
+----------------
+false
+
+
+87.5/100
+failed test case : 
+applepenapple
+apple pen apple
+
+word=input()
+l=list(map(str,input().split()))
+for i in l:
+    if i in word:
+        word=word.replace(i,"",word.count(i))
+        l.remove(i)
+        # print(word , l)
+    else:
+        continue
+if word=="":
+    print(True)
+else:
+    print(False)
+
+
+
+
+100/100
+def word(s,l):
+    dp=[False]*(len(s)+1)
+    dp[len(s)]=True
+    for i in range(len(s)-1,-1,-1):
+        for j in l:
+            if(i+len(j))<=len(s) and s[i:i+len(j)]==j:
+                dp[i]=dp[i+len(j)]
+            if dp[i]:
+                break
+    return dp[0]
+s=input()
+l=list(map(str,input().split()))
+a=word(s,l)
+print(a)
