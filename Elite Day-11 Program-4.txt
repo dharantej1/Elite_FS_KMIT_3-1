@@ -80,3 +80,17 @@ for i in range(r):
 print(indices_1)
 
 Approach 2:
+r,c=map(int,input().split())
+l=[ int('0b'+''.join(input().split()),2) for i in range(r)]
+ans=0
+for i in range(r-1):
+    for j in range(i+1,r):
+        c=bin(l[i]&l[j]).count('1')
+        ans+=(c*(c-1))//2
+        # count=0
+        # for k in range(c):
+        #     if l[i][k]==l[j][k]==1:
+        #         count+=1
+        #     # print(count)
+        # ans+=(count*(count-1))//2
+print(ans)

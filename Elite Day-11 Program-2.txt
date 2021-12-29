@@ -47,3 +47,9 @@ Given String, a i d i n
 after shifting,	india
 
 
+letter=list(input())
+pos=list(map(int,input().split()))
+d=dict(zip(pos,letter))
+w=sorted(d.keys())
+for i in w:
+    print(d[i],end='')
