@@ -61,7 +61,7 @@ boat can carry a weight 10 and splitting the packages into parts like
 
 
 
-def boatDays(weights, D):
+def boatWeight(weights, D):
         left, right = max(weights), sum(weights)
         while left < right:
             mid, need, cur = (left + right) / 2, 1, 0
@@ -76,4 +76,4 @@ def boatDays(weights, D):
 
 n,D=map(int,input().split())
 weights=list(map(int,input().split()))[:n]
-print(int(boatDays(weights,D)))
+print(int(boatWeight(weights,D)))
