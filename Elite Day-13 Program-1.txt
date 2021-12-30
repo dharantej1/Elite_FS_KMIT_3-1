@@ -35,15 +35,18 @@ Sample Output-2:
 7
 
 
+def LiftCapacity(n,l):
+    max_weight=500
+    _count=0
+    _sum=0
+    for i in range(n):
+        if _sum+l[i]<=500:
+            _sum+=l[i]
+            _count+=1
+        else:
+            break
+    return(_count)
+    
 n=int(input())
-l=list(map(int,input().split()))[:n]
-l.sort()
-sum=0
-count=0
-for i in range(len(l)):
-    if sum+l[i]<=500:
-        sum+=l[i]
-        count+=1
-    else:
-        break
-print(count)
+l=sorted(list(map(int,input().split()))[:n])
+print(LiftCapacity(n,l))
