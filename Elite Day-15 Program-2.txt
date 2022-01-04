@@ -1,0 +1,62 @@
+Given a classic mobile phone, and the key pad of the phone looks like below.
+	1		2		3
+		        abc	        def
+		 
+	4		5		6
+   	ghi     	jkl     	mno
+  
+	7		8		9
+  	pqrs     	tuv    		wxyz
+	
+	*		0		#
+
+
+You are given a string S contains digits between [2-9] only, 
+For example: S = "2", then the possible words are "a", "b", "c".
+
+Now your task is to find all possible words that the string S could represent.
+and print them in a lexicographical order. 
+
+Input Format:
+-------------
+A string S, consist of digits [2-9]
+
+Output Format:
+--------------
+Print the list of words in lexicographical order.
+
+
+Sample Input-1:
+---------------
+2
+
+Sample Output-1:
+----------------
+[a, b, c]
+
+
+Sample Input-2:
+---------------
+24
+
+Sample Output-2:
+----------------
+[ag, ah, ai, bg, bh, bi, cg, ch, ci]
+
+
+l=list(input())
+# print(type(l[0]))
+d={'2':['a','b','c'],'3':['d','e','f'],'4':['g','h','i'],'5':['j','k','l'],'6':['m','n','o'],'7':['p','q','r','s'],'8':['t','u','v'],'9':['w','x','y','z']}
+ans=[]
+if len(l)==1:
+    print(d[l[0]])
+elif len(l)==2:
+    print(sorted([i+j for i in d[l[0]] for j in d[l[1]]]))
+else:
+    ans=[i+j for i in d[l[0]] for j in d[l[1]]]
+    l.pop(1)
+    l.pop(0)
+    while(len(l)!=0):
+        ans=[i+j for j in d[l[0]] for i in ans]
+        l.pop(0)
+    print(sorted(ans))
