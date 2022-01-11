@@ -68,3 +68,27 @@ false
 Explanation:
 -------------
 you cannot form ball groups.
+
+50/100
+def canSort(n,g,l):
+    start=0
+    end=start+g
+    def lSum(a,b):
+        return int((b*(b+1)/2)-(a*(a+1)/2))
+    count=0
+    while end!=n+g:
+        print(sum(l[start:end]) , lSum(l[start:end][0]-1,l[start:end][-1]))
+        if sum(l[start:end])==lSum(l[start:end][0],l[start:end][-1]):
+            count=count+1
+        start=end
+        end=start+g
+        print("count value : ",count)
+
+    if count==(n/g):
+            return(True)
+    else:
+        return(False)    
+
+n,g=map(int,input().split())
+l=sorted(list(map(int,input().split()))[:n])
+print(canSort(n,g,l))
