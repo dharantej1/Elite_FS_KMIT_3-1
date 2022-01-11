@@ -1,0 +1,79 @@
+Gnanesh is working on Machine Learning domain. He wants train the machine 
+in such a way that, if he provided an image printed with a string on it,
+the machine has to extract the text as a string and verify that, 
+after shuffling  the letters in the string, 'the shuffled string should be 
+like no two adjacent letters should be same' 
+
+You will be given extracted string, and
+Can you help Gnanesh to train the machine with the given constraint 
+The machine has to print "true", if the constarint is met, 
+Otherwise, print "false".
+
+Input Format:
+-------------
+A String S
+
+Output Format:
+--------------
+Print a boolean value.
+
+
+Sample Input-1:
+---------------
+aaabd
+
+Sample Output-1:
+----------------
+true
+
+Sample Input-2:
+---------------
+aaab
+
+Sample Output-2:
+----------------
+false
+
+
+def maxc(count):
+    maxCount = 0
+    for i in range(26):
+        if count[i] > maxCount:
+            maxCount = count[i]
+            maxChar = chr(i + ord('a'))
+
+    return maxCount, maxChar
+
+def arrange(S):
+    n = len(S)
+    if not n:
+        return False
+    count = [0] * 26
+    for char in S:
+        count[ord(char) - ord('a')] += 1
+    maxCount, maxChar = maxc(count)
+    if maxCount > (n + 1) // 2:
+        return False
+    res = [None] * n
+    ind = 0
+    while maxCount:
+        res[ind] = maxChar
+        ind += 2
+        maxCount -= 1
+    count[ord(maxChar) - ord('a')] = 0
+    for i in range(26):
+        while count[i] > 0:
+            if ind >= n:
+                ind = 1
+            res[ind] = chr(i + ord('a') )
+            ind += 2
+            count[i] -= 1
+    return ''.join(res)
+
+
+string = str(input())
+res = arrange(string)
+if res:
+  print(True)
+else:
+  print(False)
