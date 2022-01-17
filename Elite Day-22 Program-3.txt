@@ -41,3 +41,33 @@ mmnn pqrxyzpqrxyz
 Sample Output-3:
 ----------------
 false
+
+
+
+75/100
+def patternMatch(pattern,string):
+    n=int(len(string)/len(pattern))
+    dic={}
+    start=0
+    end=start+n
+    for i in pattern:
+        dic[i]=string[start:end]
+        # print(dic)
+        start=end
+        end=start+n
+    keys=[]
+    values=[]
+    for i in dic.keys():
+        if i not in keys:
+            keys.append(i)
+    for i in dic.values():
+        if i not in values:
+            values.append(i)
+    if len(keys)==len(values):
+        return(True)
+    else:
+        return(False)
+
+if __name__=="__main__":
+    pattern,string=map(str,input().split())
+    print(patternMatch(pattern,string))
