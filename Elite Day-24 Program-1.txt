@@ -45,6 +45,25 @@ Explanation:
 
 
 
+Approach 2:
+def convertOne(n):
+    if n==1:
+        return 0
+    elif n==3:
+        return 1+convertOne(n-1)
+    elif n%2==0:
+        return 1+convertOne(int(n/2))
+    else:
+        if int(str(bin(n+1)[2:]).count("1"))<=int(str(bin(n-1)[2:]).count("1")):
+            return 1+convertOne(n+1)
+        else:
+            return 1+convertOne(n-1)
+if __name__=="__main__":
+    n=int(input())
+    print(convertOne(n))
+
+
+Approach 1:
 def convertOne(n):
     if n==1:
         return 0
