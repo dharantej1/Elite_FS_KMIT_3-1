@@ -56,3 +56,30 @@ false
 
 
 
+import java.util.*;
+
+class eday24prog2{
+    int len;
+    char ss[];
+    boolean canWin(String s){
+        len=s.length();
+        ss=s.toCharArray();
+        return canWin();
+    }
+    boolean canWin(){
+        for(int is=0;is<len-1;++is){
+            if(ss[is]=='A' && ss[is+1]=='A'){
+                ss[is]='B';ss[is+1]='B';
+                boolean wins=!canWin();
+                ss[is]='A';ss[is+1]='A';
+                if(wins){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static void main(String args[]){
+        System.out.println(new eday24prog2().canWin(new Scanner(System.in).next()));
+    }
+}
