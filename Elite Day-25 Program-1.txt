@@ -71,7 +71,7 @@ public class eday25prog1{
     public int shortestDistance(int[][] forest,int[] start,int[] dest){
         int[][] distance=new int [forest.length][forest[0].length];
         for(int[] row : distance)
-            Arrays.fill(row,Integer.MAX_VALUE);
+            forest.fill(row,Integer.MAX_VALUE);
         distance[start[0]][start[1]]=0;
         dfs(forest,start,distance);
         return distance[dest[0]][dest[1]]==Integer.MAX_VALUE ?-1 : distance[dest[0]][dest[1]];
