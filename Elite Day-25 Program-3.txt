@@ -65,6 +65,39 @@ Sample Output:
 ----------------
 4
 
-.
 
 
+#include<bits/stdc++.h>
+using namespace std;
+int solve(vector<vector<bool>> &v,int i,int j,int x,int y)
+{
+    int n=v.size(),m=v[0].size();
+    if(i>=0 and j<v[0].size() and i<v.size() and j>=0 and v[i][j]){
+        return 1+solve(v,i+x,j+y,x,y);
+    }
+    return 0;
+
+}
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    vector<vector<bool>> v(n,vector<bool>(m,0));
+    for(int i=0;i<n;i++)
+        for(int j=0;j<m;j++){
+            bool x;
+        cin>>x;
+         v[i][j]=x;
+         }
+    int ans=0;
+    vector<vector<int>> b={{-1,0},{0,-1},{1,0},{0,1},{1,1},{-1,1},{1,-1},{-1,-1}};
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(v[i][j]){
+                    for(auto &k:b)
+                ans=max(ans,solve(v,i,j,k[0],k[1]));
+            }
+        }
+    }
+    cout<<ans<<endl;
+}
