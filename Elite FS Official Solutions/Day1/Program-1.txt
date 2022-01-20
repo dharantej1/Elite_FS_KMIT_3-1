@@ -1,0 +1,90 @@
+/*
+Ramesh and Suresh are best friends. They decided to play a word game.
+ The game rules are as follows:
+ 	- The game board shows a word W consist of two characters only A and B.
+	- You are allowed to replace a pair of neighbour letters AA with BB in W.
+ 	- Finally, The one who failed to replace the letters will lose the game.
+ Your task is to find all the possible ways of W, after one valid replacement. 
+ You have to perform the replacement of the pair from left to right in the word.
+ and print the result in the same order of replacement.
+   
+  
+Input Format:
+-------------
+ A string W, word.
+
+ Output Format:
+ --------------
+ Print the list of possible replacements of W.
+  
+Sample Input-1:
+---------------
+ AAABAA
+
+Sample Output-1:
+----------------
+[BBABAA, ABBBAA, AAABBB]
+  
+Sample Input-2:
+---------------
+AAAAA
+
+Sample Output-2:
+----------------
+[BBAAA, ABBAA, AABBA, AAABB] 
+
+Test Cases:
+case =1
+input =AAAAA
+output =[BBAAA, ABBAA, AABBA, AAABB]
+
+case =2
+input =AAABAA
+output =[BBABAA, ABBBAA, AAABBB]
+
+case =3
+input =AAABAABBAAA
+output =[BBABAABBAAA, ABBBAABBAAA, AAABBBBBAAA, AAABAABBBBA, AAABAABBABB]
+
+case =4
+input =ABABABAB
+output =[]
+
+case =5
+input =AAABAABAAABAB
+output =[BBABAABAAABAB, ABBBAABAAABAB, AAABBBBAAABAB, AAABAABBBABAB, AAABAABABBBAB]
+
+case =6
+input =AAAABBBBAABAAA
+output =[BBAABBBBAABAAA, ABBABBBBAABAAA, AABBBBBBAABAAA, AAAABBBBBBBAAA, AAAABBBBAABBBA, AAAABBBBAABABB]
+
+case =7
+input =AABAABAABAA
+output =[BBBAABAABAA, AABBBBAABAA, AABAABBBBAA, AABAABAABBB]
+
+case =8
+input =AABAAAABAAB
+output =[BBBAAAABAAB, AABBBAABAAB, AABABBABAAB, AABAABBBAAB, AABAAAABBBB]
+*/
+
+Solution:
+import java.util.*;
+class Program1 {
+	public List<String> generatePossibleNextMoves(String s) {
+	    List<String> list = new ArrayList<String>();
+	    for (int i = 1; i < s.length(); i++) {
+	        if (s.charAt(i) == 'A' && s.charAt(i - 1) == 'A') {
+	            list.add(s.substring(0, i - 1) + "BB" + s.substring(i + 1, s.length()));
+	        }
+	    }
+	    return list;
+	}
+	
+  public static void main(String args[])
+	    {
+	    	 Scanner sc=new Scanner(System.in);
+	 		String str=sc.next();
+	 		
+		System.out.println(new Test().generatePossibleNextMoves(str));
+	    }
+}

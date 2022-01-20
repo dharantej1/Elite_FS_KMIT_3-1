@@ -1,0 +1,107 @@
+/*
+Mr Shravan Kumar is given a word W and a list of words[]. He wants to check 
+whether is it possible to create the word W from the given list of words 
+by appending them or not. It is not necessary to use all the words from the list.
+It is allowed to use the words in the list repeatedly if required to form the 
+original W. 
+Your task if to help Mr Nagireddy to find it is possibe to create the oridinal
+word W or not. If possible print true. Otherwise flase.
+
+
+Input Format:
+-------------
+Line-1: A single line word W, Original word.
+Line-2: A single line space space-separated words, list[].
+
+Output Format:
+--------------
+Print a boolean value.
+
+Sample Input-1:
+---------------
+capable
+cap cable ap able 
+
+Sample Output-1:
+----------------
+true
+
+
+Sample Input-2:
+---------------
+capable
+cable ap able
+
+Sample Output-2:
+----------------
+false
+
+Test Cases:
+case =1
+input =capable
+cap cable ap able
+output =true
+
+case =2
+input =capable
+cable ap able
+output =false
+
+case =3
+input =applepenapple
+apple pen
+output =true
+
+case =4
+input =catsandog
+cat cats sand and dog
+output =false
+
+case =5
+input =correction
+cor rect rection correct core ion
+output =true
+
+case =6
+input =annualstatement
+an annual nu state mint alsta an nual tement
+output =true
+
+case =7
+input =annualstatement
+an annual state mint alsta an nual tement
+output =false
+
+case =8
+input =memorial
+me memo memory real ria ial more
+output =false
+*/
+Solution:
+import java.util.*;
+
+public class WordBreak {
+	
+	 public static boolean wordBreak(String s, String [] wordDict) {
+	        Set<String> wordDictSet=new HashSet(Arrays.asList(wordDict));
+	        boolean[] dp = new boolean[s.length() + 1];
+	        dp[0] = true;
+	        for (int i = 1; i <= s.length(); i++) {
+	            for (int j = 0; j < i; j++) {
+	                if (dp[j] && wordDictSet.contains(s.substring(j, i))) {
+	                    dp[i] = true;
+	                    break;
+	                }
+	            }
+	        }
+	        return dp[s.length()];
+	    }
+
+	 public static void main(String args[] ) {
+		Scanner sc = new Scanner(System.in);
+		String s = sc.nextLine();
+		String str = sc.nextLine();
+		String[] strs = str.split(" ");	
+		System.out.println(wordBreak(s,strs));  
+	}
+}

@@ -1,0 +1,121 @@
+/*
+You are playing a game. There are N boxes placed in a row (0-indexed), 
+every box has some points. You need to play the game with the following rules:
+ - Initially your score is  '0' points.
+	- Suppose the box has p points in it.
+	  if p>0 you will gain p points, if p<0 you will loose p points.
+	- You are allowed to choose any number of consecutive boxes, atleast 1 box.
+   	
+You are given the points in the N boxes as points[]. 
+Your target is to maximize your score by droping atmost one box in the set of 
+consecutive boxes, and return the highest score possible. 
+
+Note : The score should be considered for atleast 1 box even after droping a box.
+ 
+Input Format:
+-------------
+Line-1: An integer N.
+Line-2: N space separated integers, points[].
+  
+Output Format:
+--------------
+An integer, print the highest score.
+    
+Sample Input-1:
+---------------
+9
+-3 1 -2 4 -2 2 3 -5 4
+ 
+Sample Output-1:
+----------------
+ 11
+   
+Explanation:
+------------
+By selecting consecutive boxes [4,-2,2,3,-5,4] and dropping -5 , has the highest
+score is 11.
+   
+ 
+Sample Input-2:
+---------------
+ 2
+ 1 -2
+  
+Sample Output-2:
+----------------
+1
+
+Explanation:
+------------
+By picking the box is [1] has the highest score is 1.
+
+Test Cases:
+case =1
+input =9
+-2 1 -3 4 -1 2 1 -5 4
+output =10
+    
+case =2
+input =2
+1 -2
+output =1
+ 
+case =3
+input =20
+6 -2 -7 7 -4 3 5 -5 7 -7 9 4 7 -5 -7 5 1 2 -3 3
+output =33
+ 
+case =4
+input =25
+5 -7 4 -9 -8 4 -9 -1 -10 -8 5 -4 -3 -8 6 8 9 6 5 -4 2 1 -5 9 8
+output =50
+ 
+case =5
+input =30
+6 -13 20 -1 -4 -13 -8 -4 -17 -7 -1 12 13 19 -10 -12 1 -15 -4 6 -1 -3 15 5 -5 3 -18 -13 -14 1
+output =44
+   
+case =6
+input =50
+17 0 -17 7 14 -11 1 20 3 13 -1 6 17 -15 15 6 16 -10 17 3 -4 14 -18 16 -11 -16 -17 11 15 -20 3 -19 6 13 12 -11 -2 15 7 -4 15 -14 16 -7 7 -1 -14 -1 2 8
+output =128
+ 
+case =7
+input =50
+-21 -49 -40 -52 -36 18 -87 76 -44 96 92 63 81 -82 84 18 -30 -7 90 -26 -85 29 98 92 43 57 -6 16 -100 89 45 55 68 -75 -56 -58 -45 88 54 -27 -100 85 -26 -88 -96 20 90 -86 26 -49
+output =912
+ 
+case =8
+input =75
+3 67 -84 -38 -97 7 -55 -75 -27 2 78 -23 21 95 47 -17 65 19 9 -89 -34 74 -34 -98 29 -93 -1 -74 -7 83 88 41 -31 19 -69 -84 62 -43 -52 -11 65 -56 -81 -27 95 9 82 75 -98 -15 -72 71 -23 83 64 28 -90 -88 83 -92 83 -65 56 -79 -17 33 27 57 75 83 -5 -8 -64 1 43
+output =463
+
+*/
+Solution:
+import java.util.*;
+
+public class ArrayNesting {
+    public int arrayNesting(int[] A) {
+        int res = 0, n = A.length;
+        boolean[] seen = new boolean[n];
+        for (int i : A) {
+            int cnt = 0;
+            while (!seen[i]) {
+                seen[i] = true;
+                cnt++;
+                i = A[i];
+            }
+            res = Math.max(res, cnt);
+        }
+        return res;
+    }
+	public static void main(String args[])
+    {
+        Scanner scan = new Scanner(System.in);
+        int n=scan.nextInt();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++)
+			nums[i]=scan.nextInt();
+		System.out.println(new ArrayNesting().arrayNesting(nums));
+	}
+}

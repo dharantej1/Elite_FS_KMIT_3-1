@@ -1,0 +1,138 @@
+/*
+In the present situation, most of the movies releasing in OTTs.
+The Showtime OTT in US, introduced a new offer for the customers, 
+they can purchase either 1-day, 7-day, or 30-day subscription,
+and the cost is as follows price[0], price[1], price[2].
+
+The Subscription allows you to watch as many movies as you want with in subscribed days. 
+For example:
+If you purchased, a 7-day subscription on day 5, then you can watch
+the movies for 7 days: day 5, 6, 7, 8, 9, 10 and 11.
+
+Your task is to find out the minimum cost, you spend to watch the movies
+in the given list of days .
+
+NOTE: Days are numbered from 1, 2, 3, ...365, in sorted order.
+
+Input Format:
+-------------
+Line 1: Space separated integer days[], list of days.
+Line 2: 3 space separated integer price[], cost of subscription.
+
+Output Format:
+--------------
+Print an integer, minimum cost. 
+
+
+Sample Input-1:
+---------------
+1 4 6 7 8 20
+2 7 15
+
+Sample Output-1:
+----------------
+11
+
+Explanation:
+------------
+For example, here is a way to buy subscription, to watch the movies in given days:
+On day 1, buy a 1-day subscription for price[0] = $2, which cover day 1.
+On day 4, buy a 7-day subscription for price[1] = $7, which cover days 4, 5, ..., 10.
+On day 20, buy a 1-day subscription for price[0] = $2, which cover day 20.
+In total you spent $11.
+
+
+Sample Input-2:
+---------------
+1 2 3 4 5 6 7 8 9 10 30 31
+2 7 15
+
+Sample Output-2:
+----------------
+17
+
+Explanation:
+------------
+For example, here is a way to buy subscription, to watch the movies in given days:
+On day 1, buy a 30-day subscription for price[2] = $15, which cover days 1, 2, 3,....,30.
+On day 31, buy a 1-day subscription for price[0] = $2, which cover day 31.
+In total you spent $17.
+
+Test Cases:
+case =1
+input =1 2 3 4 5 8 9 10 11 14 15 67 68 69 70 90 91 92 95 98
+3 15 45
+output =60
+
+case =2
+input =1 2 3 4 5 6 7 8 9 10 30 31
+2 7 15
+output =17
+
+case =3
+input =1 4 6 7 8 20
+2 7 15
+output =11
+
+case =4
+input =1 2 3 4 5 6 7 8 9 10 30 31 61 62 63 65 67 70 71 76 79 82 83 90 91 92 95 98
+3 18 60
+output =81
+
+case =5
+input =1 2 3 4 5 6 7 8 9 10 30 31 61 62 63 65 67 70 71 76 79 82 83 90 91 92 95 98 161 162 163 165 167 170 171 176 179 182 183 190 191 192 195 198
+3 18 60
+output =129
+
+case =6
+input =1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 48 49 50 51 52 53 54 55 56 67 68 69 81 82 83 84 85 86 87 88 89 101 102 103 104 105 106 117 118 119 121 122 133 134 135 136 171 178 179
+1 5 16
+output =54
+
+case =7
+input =1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 48 49 50 51 52 53 54 55 56 67 68 69 81 82 83 84 85 86 87 88 89 101 102 103 104 105 106 117 118 119 121 122 133 134 135 136 171 178 179 
+2 7 15
+output =71
+
+case =8
+input =1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 48 49 50 51 52 53 54 55 56 67 68 69 81 82 83 84 85 86 87 88 89 101 102 103 104 105 106 117 118 119 121 122 133 134 135 136 171 178 179 181 188 189 201 202 213 214 225 236 237 238 239 241 252 253 254 255 266 267 278 309 311 312 313 314 315 326 327 328 329
+5 15 50
+output =300
+
+
+*/
+Solutions:
+import java.io.*;
+import java.util.*;
+class MinCostTickets{
+    public int mincostTickets(int[] days, int[] costs){
+        int n = days[days.length - 1];
+        boolean[] travel = new boolean[n+1];
+        int[] amount = new int[n+1];
+        for(int day : days) {
+            travel[day] = true;
+        }
+        amount[0] = 0;
+        for(int i=1; i<=n; ++i) {
+            if(travel[i]) {
+                int min = amount[i-1] + costs[0];
+                min = Math.min(min, (i < 7 ? 0 : amount[i-7]) + costs[1]);
+                min = Math.min(min, (i < 30 ? 0 : amount[i-30]) + costs[2]);
+                amount[i] = min;
+            } else {
+                amount[i] = amount[i-1];
+            }
+        }
+        return amount[n];
+    }	
+	public static void main(String args[] ) throws IOException {
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String str = br.readLine();
+		String[] sarr = str.split(" ");
+		int[] days = Arrays.asList(sarr).stream().mapToInt(Integer::parseInt).toArray();		
+		String str1 = br.readLine();
+		String[] sarr1 = str1.split(" ");
+		int[] cost = Arrays.asList(sarr1).stream().mapToInt(Integer::parseInt).toArray();
+		System.out.println(new MinCostTickets().mincostTickets(days,cost));
+	}
+}

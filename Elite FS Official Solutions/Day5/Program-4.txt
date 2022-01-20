@@ -1,0 +1,152 @@
+/*
+Suppose you are given the following code:
+
+class KmitNgit {
+  public void kmit() {
+    for (int i = 0; i < n; i++) {
+      print("Kmit");
+    }
+  }
+
+  public void ngit() {
+    for (int i = 0; i < n; i++) {
+      print("Ngit");
+    }
+  }
+}
+
+The same instance of KmitNgit will be passed to two different threads. 
+Thread A will call kmit() while thread B will call ngit(). 
+Modify the given program to output "KmitNgit" n times.
+
+Input Format:
+-------------
+An integer N.
+
+Output Format:
+--------------
+Print KmitNgit for N times using threads.
+
+
+Sample Input:
+-------------
+1
+Sample Output:
+--------------
+KmitNgit
+
+Explanation:
+------------
+There are two threads being fired asynchronously. 
+One of them calls kmit(), while the other calls ngit(). 
+"KmitNgit" is being output 1 time.
+
+
+Sample Input:
+-------------
+2
+
+Sample Output:
+--------------
+KmitNgitKmitNgit
+
+Explanation:
+------------
+"KmitNgit" is being output 2 times.
+
+Test Cases:
+case =1
+input =4
+output =KmitNgitKmitNgitKmitNgitKmitNgit
+
+case =2
+input =15
+output =KmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgit
+
+case =3
+input =1
+output =KmitNgit
+
+case =4
+input =25
+output =KmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgit
+
+case =5
+input =100
+output =KmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgit
+
+case =6
+input =150
+output =KmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgitKmitNgit
+
+*/
+Solution:
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.concurrent.Semaphore;
+class FootBall implements Runnable{
+    private int n;
+    Semaphore s1 = new Semaphore(0);
+    Semaphore s2 = new Semaphore(1);
+
+    public FootBall(int n) {
+        this.n = n;
+    }
+    @Override
+	public void run() {
+    	if("A".equals(Thread.currentThread().getName())) {
+    		try {
+    			foot(printFoot);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    	if("B".equals(Thread.currentThread().getName())) {
+    		try {
+    			ball(printBall);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+		
+	}
+    
+    Runnable printFoot = new Runnable() {
+        public void run() {
+        	 System.out.print("Kmit");
+        	 s1.release();
+        }
+    };
+    
+    Runnable printBall = new Runnable() {
+        public void run() {
+        	 System.out.print("Ngit");
+        	 s2.release();
+        }
+    };
+    
+    public void foot(Runnable printFoot) throws InterruptedException {
+        for (int i = 0; i < n; i++) {
+            s2.acquire();
+            printFoot.run();
+        }
+    }
+    public void ball(Runnable printBall) throws InterruptedException {
+        for (int i = 0; i < n; i++) {
+        	s1.acquire();
+            printBall.run();
+        }
+    }
+    public static void main(String[] args) throws IOException {
+    	Scanner sc=new Scanner(System.in);
+    	int n=sc.nextInt();
+        FootBall fb = new FootBall(n);
+        Thread one = new Thread(fb,"A");
+        Thread two = new Thread(fb,"B");
+        one.start();
+        two.start();
+    }
+}

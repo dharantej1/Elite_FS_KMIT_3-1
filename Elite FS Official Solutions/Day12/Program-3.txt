@@ -1,0 +1,167 @@
+/*
+Swiss Castle bakers has recivied P orders of cakes, and each cake has 
+to filled with Q types of creams. To prepare varieties of creams, each 
+variety takes different amounts of time in minutes, where i-th variety 
+takes time[i] minutes.
+
+You need to prepare P cakes. To prepare a cake, you need to use Q adjacent 
+creams from the cook. The cook can prepare N varieties of creams, the i-th 
+variety will be ready in time[i] minutes, and then you can use it to fill 
+the cake.  [ Note: you can use each variety only once ].
+ 
+Your task is to find and return the minimum time (in minutes) required, 
+to prepare P cakes filled with Q types of creams. If it is impossible to 
+prepare P cakes, print -1.
+
+
+Input Format:
+-------------
+Line-1: Three space separated integers, N, P and Q.
+Line-2: N space separated integers, time[].
+
+Output Format:
+--------------
+Print an integer result.
+
+
+Sample Input-1:
+---------------
+6 2 2
+3 7 2 2 4 8
+
+Sample Output-1:
+----------------
+7
+
+Explanation:
+-------------
+* means not ready, R means ready.
+Minute-1: * * * * * *
+Minute-2: * * R R * *
+Minute-3: R * R R * *
+Minute-4: R * R R R *
+Minute-5: R * R R R *
+Minute-6: R * R R R *
+Minute-7: R R R R R *
+Now you can create two cakes with two varieties of fillings
+Cake-1 can use variety-2 and variety-3
+Cake-2 can use variety-0 and variety-1.
+
+Sample Input-2:
+---------------
+5 3 2
+2 3 5 3 4
+
+Sample Output-2:
+----------------
+-1
+
+Explanation:
+------------
+We need 6 varieties of creams to prepare 3 cakes.
+We have only 5 varieties, so not possible. Print -1.
+
+Test Cases:
+case =1
+input =6 2 2
+3 7 2 2 4 8
+output =7
+
+case =2
+input =5 3 2
+3 4 5 2 7
+output =-1
+
+case =3
+input =7 2 3
+6 6 6 6 6 12 6 6
+output =12
+
+case =4
+input =15 4 3
+21 8 26 20 24 10 22 1 13 3 20 13 12 6 7
+output =24
+
+case =5
+input =25 5 3
+5 27 8 3 16 28 6 29 26 30 29 5 4 5 8 24 13 13 13 5 9 5 12 17 1
+output =17
+
+case =6
+input =50 6 4
+35 1 38 31 43 29 22 31 14 16 44 16 25 46 41 41 3 5 9 39 7 1 22 34 17 24 36 8 45 35 23 2 26 2 48 49 14 6 24 16 5 11 2 36 11 39 7 3 5 40
+output =36
+
+case =7
+input =100 8 7
+52 60 29 18 7 1 65 12 15 63 9 27 60 33 38 64 27 46 41 21 29 29 55 51 13 37 32 71 28 16 40 66 49 25 21 35 65 13 53 60 19 13 53 9 29 16 1 14 13 62 15 24 6 21 36 40 16 32 65 44 59 57 53 15 61 65 25 31 4 31 61 31 57 27 44 61 11 73 67 68 53 51 69 23 29 7 68 21 24 36 54 62 55 1 30 45 67 4 21 32
+output =65
+
+case =8
+input =100 9 5
+44 54 76 25 92 27 96 97 33 21 84 19 22 93 54 61 70 99 66 39 54 24 44 24 34 74 86 75 66 26 51 30 38 69 79 14 83 14 95 68 26 44 28 56 97 44 97 16 39 42 52 85 65 89 47 14 48 76 23 72 71 74 11 37 98 71 54 34 17 60 78 59 68 19 65 32 97 57 82 27 83 75 53 46 26 80 25 48 25 98 78 88 64 93 92 30 52 49 16 76
+output =80
+
+*/
+Solution:
+
+import java.util.*;
+
+class Bouquets {
+    public int minDays(int[] bloomDay, int m, int k) {
+		int max = Integer.MIN_VALUE, len = bloomDay.length;
+		for (int i = 0; i < len; i++) {
+			if (bloomDay[i] > max)
+				max = bloomDay[i];
+		}
+
+		int lo = 1, hi = max, ans = -1;
+
+		while (lo <= hi) {
+
+			int mid = lo + (hi - lo) / 2;
+			if (isPossible(bloomDay, m, k, mid)) {
+				ans = mid;
+				hi = mid - 1;
+			} else
+				lo = mid + 1;
+		}
+
+		return ans;
+	}
+
+	// O(bloomDay.length) O(1)
+	public boolean isPossible(int[] bloomDay, int m, int k, int days) {
+
+		int len = bloomDay.length, count = 0, adjacent = 0;
+		for (int i = 0; i < len; i++) {
+
+			if (bloomDay[i] <= days) {
+				adjacent++;
+				if (adjacent == k) {
+					count++;
+					if (count == m)
+						return true;
+					adjacent = 0;
+				}
+			} else
+				adjacent = 0;
+		}
+		return false;
+	}
+
+	public static void main(String args[])
+	{
+		Scanner sc= new Scanner(System.in);
+		int n=sc.nextInt();
+		int m=sc.nextInt();
+		int k=sc.nextInt();
+		
+		int days[]=new int[n];
+
+		for(int i=0;i<n;i++)
+			days[i]=sc.nextInt();
+
+		System.out.println(new Bouquets().minDays(days,m,k));
+	}
+}

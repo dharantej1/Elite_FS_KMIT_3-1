@@ -1,0 +1,171 @@
+/*
+Mahalakshmi participated in a treasure-hunt conatins N boxes in it.
+Each box is numbered from 0,1,2,3,...,N-1. 
+All the boxes are intially locked with the passcodes, except Box-0.
+The passcode is written in a envolope and marked with its concern box number.
+
+Each box in the treasure hunt contains a list of envelopes, which has 
+passcodes to open the other boxes. You can open the boxes in any order, 
+but you have to start from box-0 intially.
+
+The rule to win the treasure-hunt is to open all the boxes.
+Your task is to find out, whether Mahalakshmi win the treasure hunt or not.
+If she win, print "Win".
+Otherwise, print "Lost"
+
+Input Format:
+-------------
+Line-1: An integer, number of boxes.
+Next N lines: space separated integers, box numbers.
+
+Output Format:
+--------------
+Print a string value, Win or Lost
+
+
+Sample Input-1:
+---------------
+5
+1
+2
+3
+4
+3
+
+Sample Output-1:
+----------------
+Win
+
+Sample Input-2:
+---------------
+4
+1 3
+3 0 1
+2
+0
+
+Sample Output-2:
+----------------
+Lost
+
+Test Cases:
+case =1
+input =4
+1
+2
+3
+0
+output ="Win"
+
+case =2
+input =4
+1 3
+3 0 1
+2
+0
+output ="Lost"
+
+case =3
+input =5
+1
+2 3
+4 0
+2 4
+3
+output ="Win"
+
+case =4
+input =6
+0
+2 3
+4 0 5
+2 4
+3
+1 4
+output ="Lost"
+
+case =6
+input =12
+11 1 2
+10 3
+9
+8
+7
+6 4 2 1
+1
+5
+2 1 8 5 4 0
+4
+3
+0
+output ="Win"
+
+case =7
+input =9
+1
+2
+3
+0
+2 5
+4 6 7
+5 8
+7
+6 2 1
+output ="Lost"
+
+case =8
+input =9
+1
+2
+3
+4
+2 5
+4 6 5
+5 8
+7
+6 2 7
+output ="Win"
+
+*/
+Solution:
+
+import java.util.*;
+
+class TreasureHunts {
+    public boolean can_Win_the_Hunt(List<List<Integer>> box) {
+        boolean[] seen = new boolean[box.size()];
+        seen[0] = true;
+        Stack<Integer> stack = new Stack();
+        stack.push(0);
+        while (!stack.isEmpty()) { 
+            int node = stack.pop(); 
+            for (int nei: box.get(node))
+                if (!seen[nei]) { 
+                    seen[nei] = true; 
+                    stack.push(nei); 
+                }
+        }
+        for (boolean v: seen)  
+            if (!v) return false;
+        return true;
+    }
+	
+	public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int numOfBoxes = sc.nextInt();
+        sc.nextLine();
+        List<List<Integer>> envolopes = new ArrayList<List<Integer>>();
+        for(int i=0;i<numOfBoxes;i++) {
+        	String keys = sc.nextLine();
+        	String keyArray[]= keys.split(" ");
+        	List<Integer> keylist = new ArrayList<Integer>();
+        	for(int j=0;j<keyArray.length;j++)
+        		keylist.add(Integer.parseInt(keyArray[j]));
+        	envolopes.add(keylist);
+        }
+        if(new TreasureHunts().can_Win_the_Hunt(envolopes))
+			System.out.println("Win");
+		else 
+			System.out.println("Lost");
+    }
+}

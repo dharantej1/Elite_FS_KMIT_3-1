@@ -1,0 +1,131 @@
+/*
+Given a classic mobile phone, and the key pad of the phone looks like below.
+	1		2		3
+		   abc	   def
+		 
+	4		5		6
+   ghi     jkl     mno
+  
+	7		8		9
+  pqrs     tuv    wxyz
+	
+	*		0		#
+
+
+You are given a string S contains digits between [2-9] only, 
+For example: S = "2", then the possible words are "a", "b", "c".
+
+Now your task is to find all possible words that the string S could represent.
+and print them in a lexicographical order. 
+
+Input Format:
+-------------
+A string S, consist of digits [2-9]
+
+Output Format:
+--------------
+Print the list of words in lexicographical order.
+
+
+Sample Input-1:
+---------------
+2
+
+Sample Output-1:
+----------------
+[a, b, c]
+
+
+Sample Input-2:
+---------------
+24
+
+Sample Output-2:
+----------------
+[ag, ah, ai, bg, bh, bi, cg, ch, ci]
+
+Test Cases:
+case =1
+input =2
+output =[a, b, c]
+
+case =2
+input =24
+output =[ag, ah, ai, bg, bh, bi, cg, ch, ci]
+
+case =3
+input =269
+output =[amw, amx, amy, amz, anw, anx, any, anz, aow, aox, aoy, aoz, bmw, bmx, bmy, bmz, bnw, bnx, bny, bnz, bow, box, boy, boz, cmw, cmx, cmy, cmz, cnw, cnx, cny, cnz, cow, cox, coy, coz]
+
+case =4
+input =79
+output =[pw, px, py, pz, qw, qx, qy, qz, rw, rx, ry, rz, sw, sx, sy, sz]
+
+case =5
+input =824
+output =[tag, tah, tai, tbg, tbh, tbi, tcg, tch, tci, uag, uah, uai, ubg, ubh, ubi, ucg, uch, uci, vag, vah, vai, vbg, vbh, vbi, vcg, vch, vci]
+
+case =6
+input =297
+output =[awp, awq, awr, aws, axp, axq, axr, axs, ayp, ayq, ayr, ays, azp, azq, azr, azs, bwp, bwq, bwr, bws, bxp, bxq, bxr, bxs, byp, byq, byr, bys, bzp, bzq, bzr, bzs, cwp, cwq, cwr, cws, cxp, cxq, cxr, cxs, cyp, cyq, cyr, cys, czp, czq, czr, czs]
+
+case =7
+input =7693
+output =[pmwd, pmwe, pmwf, pmxd, pmxe, pmxf, pmyd, pmye, pmyf, pmzd, pmze, pmzf, pnwd, pnwe, pnwf, pnxd, pnxe, pnxf, pnyd, pnye, pnyf, pnzd, pnze, pnzf, powd, powe, powf, poxd, poxe, poxf, poyd, poye, poyf, pozd, poze, pozf, qmwd, qmwe, qmwf, qmxd, qmxe, qmxf, qmyd, qmye, qmyf, qmzd, qmze, qmzf, qnwd, qnwe, qnwf, qnxd, qnxe, qnxf, qnyd, qnye, qnyf, qnzd, qnze, qnzf, qowd, qowe, qowf, qoxd, qoxe, qoxf, qoyd, qoye, qoyf, qozd, qoze, qozf, rmwd, rmwe, rmwf, rmxd, rmxe, rmxf, rmyd, rmye, rmyf, rmzd, rmze, rmzf, rnwd, rnwe, rnwf, rnxd, rnxe, rnxf, rnyd, rnye, rnyf, rnzd, rnze, rnzf, rowd, rowe, rowf, roxd, roxe, roxf, royd, roye, royf, rozd, roze, rozf, smwd, smwe, smwf, smxd, smxe, smxf, smyd, smye, smyf, smzd, smze, smzf, snwd, snwe, snwf, snxd, snxe, snxf, snyd, snye, snyf, snzd, snze, snzf, sowd, sowe, sowf, soxd, soxe, soxf, soyd, soye, soyf, sozd, soze, sozf]
+
+case =8
+input =6354
+output =[mdjg, mdjh, mdji, mdkg, mdkh, mdki, mdlg, mdlh, mdli, mejg, mejh, meji, mekg, mekh, meki, melg, melh, meli, mfjg, mfjh, mfji, mfkg, mfkh, mfki, mflg, mflh, mfli, ndjg, ndjh, ndji, ndkg, ndkh, ndki, ndlg, ndlh, ndli, nejg, nejh, neji, nekg, nekh, neki, nelg, nelh, neli, nfjg, nfjh, nfji, nfkg, nfkh, nfki, nflg, nflh, nfli, odjg, odjh, odji, odkg, odkh, odki, odlg, odlh, odli, oejg, oejh, oeji, oekg, oekh, oeki, oelg, oelh, oeli, ofjg, ofjh, ofji, ofkg, ofkh, ofki, oflg, oflh, ofli]
+
+*/
+Solution:
+
+import java.util.*;
+
+class PossibleWords {
+  Map<String, String> phone = new HashMap<String, String>() {{
+    put("2", "abc");
+    put("3", "def");
+    put("4", "ghi");
+    put("5", "jkl");
+    put("6", "mno");
+    put("7", "pqrs");
+    put("8", "tuv");
+    put("9", "wxyz");
+  }};
+
+  List<String> output = new ArrayList<String>();
+
+  public void backtrack(String combination, String next_digits) {
+    // if there is no more digits to check
+    if (next_digits.length() == 0) {
+      // the combination is done
+      output.add(combination);
+    }
+    // if there are still digits to check
+    else {
+      // iterate over all letters which map 
+      // the next available digit
+      String digit = next_digits.substring(0, 1);
+      String letters = phone.get(digit);
+      for (int i = 0; i < letters.length(); i++) {
+        String letter = phone.get(digit).substring(i, i + 1);
+        // append the current letter to the combination
+        // and proceed to the next digits
+        backtrack(combination + letter, next_digits.substring(1));
+      }
+    }
+  }
+
+  public List<String> letterCombinations(String digits) {
+    if (digits.length() != 0)
+      backtrack("", digits);
+    return output;
+  }
+  
+  public static void main(String args[] ) {
+	    Scanner sc = new Scanner(System.in);
+		String S= sc.next();			
+		System.out.println(new PossibleWords().letterCombinations(S));
+	}
+}

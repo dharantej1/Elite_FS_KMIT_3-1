@@ -1,0 +1,95 @@
+/*
+Alice wants send a mail to his clients,
+He has saved the clients Mail IDs in a list.
+There exists an email parser, which perform the following checks 
+and send the mail to the distinct clients, the checks are as follows:
+- Each mail id has two parts, one is username one is domain name.
+- The part before the @ symbol is username, and other is domain name.
+- In username, if there exists a '.' symbol, remove it.
+- In username, if there exists a '+' symbol, ignore the 
+  suffix of the username from that symbol (including '+') 
+- In domain name, the '.' symbol will be stays as it is.
+- There will be no '+' symbol in domain name.
+
+After performing above checks, your task is to find the count
+of distinct client mail ids, who recieves the mail sent by Alice.
+
+Input Format:
+-------------
+Space separated strings, emails list[].
+
+Output Format:
+--------------
+Print an integer result.
+
+
+Sample Input-1:
+---------------
+a.v.nagireddy@kmit.in av.nagireddy@gmail.com avnagireddy@kmit.in a.v.nagireddy+org@kmit.in
+
+Sample Output-1:
+----------------
+2
+
+Explanation:
+------------
+These 3 mail id's: a.v.nagireddy@kmit.in, avnagireddy@kmit.in, a.v.nagireddy+org@kmit.in
+are belons to same client with mail ID: avnagireddy@kmit.in
+and another client with mail ID-av.nagireddy@gmail.com
+So, there are 2 distinct clients.
+
+
+Sample Input-2:
+---------------
+avnreddy@gmail.com avnreddy@yahoo.co.in nsudha@outlook.com
+
+Sample Output-2:
+----------------
+3
+
+Explanation:
+------------
+All 3 mail IDs belons to different clients.
+
+Test Cases:
+case =1
+input =a.v.nagireddy@kmit.in av.nagireddy@gmail.com avnagireddy@kmit.in a.v.nagireddy+org@kmit.in
+output =2
+
+case =2
+input =avnreddy@gmail.com avnreddy@yahoo.co.in nsudha@outlook.com
+output =3
+
+case =3
+input =abc.xyz@mail.com abc.def+xyz@keshav.in abc.xyz@mail.com abc.def+xyz@keshav.in abcdef@kmit.in abcdef@keshav.in abc.def.xyz@mail.com
+output =4
+
+case =4
+input =a.b.c.d.e.f@mail.in ab.c.d.e.f@mail.in a.bc.d.e.f@mail.in a.b.cd.e.f@mail.in a.b.c.de.f@mail.in a.b.c.d.ef@mail.in a.b.c.d.e.f+hello@mail.in a.b.c.d.e.f+hi.hello@mail.in
+output =1
+
+case =5
+input =alice@encrypt.com alice@en.crypt.com alice+bob@encr.ypt.com bob@decrypt.com bob.+alice@decrypt.com bob+encrypt@de.cr.pt.com b.ob@decrypt.com bo.b+ali.ce@decrypt.com bob+a.l.i.c.e@decrypt.com
+output =5
+
+*/
+Solutions:
+import java.util.*;
+
+class UniqueEmails{
+    public int numUniqueEmails(String[] emails) {
+        Set<String> normalized = new HashSet<>(); // used to save simplified email address, cost O(n) sapce.
+        for (String email : emails) {
+            String[] parts = email.split("@"); // split into local and domain parts.
+            String[] local = parts[0].split("\\+"); // split local by '+'.
+            normalized.add(local[0].replace(".", "") + "@" + parts[1]); // remove all '.', and concatenate '@' and domain.        
+        }
+        return normalized.size();
+    }
+	
+	public static void main(String args[] ) {
+		Scanner sc = new Scanner(System.in);
+		String arr[]=sc.nextLine().split(" ");
+		System.out.println(new UniqueEmails().numUniqueEmails(arr));
+	}	
+}

@@ -1,0 +1,158 @@
+/*
+In a Marketing Agency, each agent will mentor either two sub-agents,
+or zero agents. Now, based on ranks given to sub-agents, the mentor agent 
+will be ranked with the top rank among two sub-agents. 
+
+The ranks are in the range [1,20], More than one agent can have same rank.
+
+At the end, all mentor agents and sub agents, will be treated as agents only.
+
+You are given the entire ranking picture as a tree.
+Your task is to find out second top agent in the Marketing agency.
+If no such agent exist, return -2.
+
+Implement the class Solution:
+   1. public int findSecondTopAgent(BinaryTreeNode root): returns an integer.
+
+NOTE:
+	- In the tree '-1', indicates empty(null).
+
+Input Format:
+-------------
+A single line of space separated integers, ranks of each individual.
+
+Output Format:
+--------------
+Print an integer, second top agent based on rank.
+
+
+Sample Input-1:
+---------------
+2 5 2 -1 -1 2 4
+
+Sample Output-1:
+----------------
+4
+
+
+Sample Input-2:
+---------------
+3 3 3 3 3
+
+Sample Output-2:
+----------------
+-2
+
+::For Tree structure refer to Hint::
+
+Test Cases:
+
+case =1
+input =2 5 2 -1 -1 2 3
+output =3
+
+case =2
+input =3 3 3 3 3
+output =-2
+
+case =3
+input =3 3 6 5 3 6 7 -1 -1 -1 -1 8 6
+output =5
+
+case =4
+input =3 3 6 5 3 6 7 -1 -1 4 3 8 6
+output =4
+
+case =5
+input =3 3 9 8 3 10 9 8 9 3 7 11 10 9 12 -1 -1 -1 -1 6 3
+output =6
+
+case =6
+input =5 10 5 10 12 5 14 11 10 15 12 5 8 14 15
+output =8
+*/
+
+Solution:
+import java.util.*;
+
+// Solution Code
+class Solution {
+    int min1;
+    long ans = Long.MAX_VALUE;
+
+    public void dfs(BinaryTreeNode root) {
+        if (root != null && root.data!=-1) {
+            if (min1 < root.data && root.data < ans) {
+                ans = root.data;
+            } else if (min1 == root.data) {
+                dfs(root.left);
+                dfs(root.right);
+            }
+        }
+    }
+    public int findSecondTopAgent(BinaryTreeNode root) {
+        min1 = root.data;
+        dfs(root);
+        return ans < Long.MAX_VALUE ? (int) ans : -2;
+    }
+}
+
+
+// Driver Code
+class BinaryTreeNode{
+	public int data; 
+	public BinaryTreeNode left, right; 
+	public BinaryTreeNode(int data){
+		this.data = data; 
+		left = null; 
+		right = null; 
+	}
+}
+
+
+public class BinaryTree{
+	static BinaryTreeNode root;
+	static BinaryTreeNode temp = root;
+	void insert(BinaryTreeNode temp, int key)
+    {
+ 
+        if (temp == null) {
+            root = new BinaryTreeNode(key);
+            return;
+        }
+        Queue<BinaryTreeNode> q = new LinkedList<BinaryTreeNode>();
+        q.add(temp);
+ 
+        // Do level order traversal until we find
+        // an empty place.
+        while (!q.isEmpty()) {
+            temp = q.peek();
+            q.remove();
+ 
+            if (temp.left == null) {
+                temp.left = new BinaryTreeNode(key);
+                break;
+            }
+            else
+                q.add(temp.left);
+ 
+            if (temp.right == null) {
+                temp.right = new BinaryTreeNode(key);
+                break;
+            }
+            else
+                q.add(temp.right);
+        }
+    }
+	public static void main(String args[])
+	{
+		Scanner sc=new Scanner(System.in);
+		String str[]=sc.nextLine().split(" ");
+		BinaryTree bt=new BinaryTree();
+		root=new BinaryTreeNode(Integer.parseInt(str[0]));
+		for(int i=1; i<str.length; i++)
+			bt.insert(root,Integer.parseInt(str[i]));
+		Solution sol= new Solution();
+		System.out.println(sol.findSecondTopAgent(root));
+	}
+}

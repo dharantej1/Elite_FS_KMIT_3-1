@@ -1,0 +1,121 @@
+/*
+Gnanesh is working on Machine Learning domain. He wants train the machine 
+in such a way that, if he provided an image printed with a string on it,
+the machine has to extract the text as a string and verify that, 
+after shuffling  the letters in the string, 'the shuffled string should be 
+like no two adjacent letters should be same' 
+
+You will be given extracted string, and
+Can you help Gnanesh to train the machine with the given constraint 
+The machine has to print "true", if the constarint is met, 
+Otherwise, print "false".
+
+Input Format:
+-------------
+A String S
+
+Output Format:
+--------------
+Print a boolean value.
+
+
+Sample Input-1:
+---------------
+aaabd
+
+Sample Output-1:
+----------------
+true
+
+Sample Input-2:
+---------------
+aaab
+
+Sample Output-2:
+----------------
+false
+
+Test Cases:
+case =1
+input =aaab
+output =false
+
+case =2
+input =aaabd
+output =true
+
+case =3
+input =abababaabbbababababbabababbbbbbababbb
+output =false
+
+case =4
+input =abbaaabbbbaaaaaabbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbcccccccccccccc
+output =false
+
+case =5
+input =aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccc
+output =false
+
+case =6
+input =aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccc
+output =true
+
+case =7
+input =abbaaabbbbaaaaaabbbbbbaaaaaaahhhhhhhhaaaaaaaaajjjjjjjjjjaaaaaaaaaabbbbbbbbbcccccccc
+output =true
+
+case =8
+input =aaaaaaaaaaaaaaaaabbbbbbbbbcccccccc
+output =true
+
+*/
+Solution:
+import java.util.*;
+
+class ReorganizeString {
+ public String reorganizeString(String S) {
+        int[] hash = new int[26];
+        for (int i = 0; i < S.length(); i++) {
+            hash[S.charAt(i) - 'a']++;
+        } 
+        int max = 0, letter = 0;
+        for (int i = 0; i < hash.length; i++) {
+            if (hash[i] > max) {
+                max = hash[i];
+                letter = i;
+            }
+        }
+        if (max > (S.length() + 1) / 2) {
+            return ""; 
+        }
+        char[] res = new char[S.length()];
+        int idx = 0;
+        while (hash[letter] > 0) {
+            res[idx] = (char) (letter + 'a');
+            idx += 2;
+            hash[letter]--;
+        }
+        for (int i = 0; i < hash.length; i++) {
+            while (hash[i] > 0) {
+                if (idx >= res.length) {
+                    idx = 1;
+                }
+                res[idx] = (char) (i + 'a');
+                idx += 2;
+                hash[i]--;
+            }
+        }
+        return String.valueOf(res);
+    }
+
+	public static void main( String args[])
+	{
+		Scanner sc=new Scanner(System.in);
+		String s=sc.next();
+		String res=new ReorganizeString().reorganizeString(s);
+		if(res.length()>0)
+			System.out.println("true");
+		else
+			System.out.println("false");
+	}
+}

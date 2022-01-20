@@ -1,0 +1,116 @@
+/*
+Roshan has done new programming on numbers.
+He has given a positive number N, find the next nearest higher number
+which has same set of digits in the given number N.
+and occurrence count of digits in both the numbers should also match.
+
+Your task is to help Roshan, to find the next nearest higher number than N.
+
+Input Format:
+-------------
+An integer N, given number.
+
+Output Format:
+--------------
+Print an integer, the next nearest higher number.
+
+
+Sample Input-1:
+---------------
+121
+
+Sample Output-1:
+----------------
+211
+
+
+Sample Input-2:
+---------------
+321
+
+Sample Output-2:
+----------------
+-1
+
+
+Test Cases:
+case =1
+input =121
+output =211
+
+case =2
+input =321
+output =-1
+
+case =3
+input =7635674
+output =7635746
+
+case =4
+input =2745242
+output =2745422
+
+case =5
+input =5437654
+output =5443567
+
+case =6
+input =9879832
+output =9882379
+
+case =7
+input =536974
+output =537469
+
+case =8
+input =12432765
+output =12435267
+
+*/
+Solution:
+
+import java.util.*;
+
+class NextGreater{
+    public int nextGreaterElement(int n) {
+        char[] digits = String.valueOf(n).toCharArray();
+        int len = digits.length;
+        int inversionPoint = len - 2;
+        while (inversionPoint >= 0 && digits[inversionPoint] >= digits[inversionPoint + 1]) {
+            inversionPoint--;
+        }
+        if (inversionPoint < 0) {
+            return -1;
+        }
+        
+        for (int i = len - 1; i > inversionPoint; i--) {
+            if (digits[i] > digits[inversionPoint]) {
+                swap(digits, i, inversionPoint);
+                break;
+            }
+        }
+        
+        reverse(digits, inversionPoint + 1, len);
+        long result = Long.parseLong(new String(digits));
+        
+        return result > Integer.MAX_VALUE ? -1 : (int) result;  // check for int overflow.
+    }
+    
+    private void swap(char[] digits, int i, int j) {
+        char tmp = digits[i];
+        digits[i] = digits[j];
+        digits[j] = tmp;
+    }
+    
+    private void reverse(char[] digits, int from, int to) {
+        for (int i = from, j = to - 1; i < j; i++, j--) {
+            swap(digits, i, j);
+        }
+    }
+	
+	public static void main(String[] args) { 
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		System.out.println(new NextGreater().nextGreaterElement(n) ); 
+	}
+}

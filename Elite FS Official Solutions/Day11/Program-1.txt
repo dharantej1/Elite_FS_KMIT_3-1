@@ -1,0 +1,157 @@
+/*
+At university of Chicago a Computer Science programing faculty as a part of 
+teaching passion, in order to make newly joined students more enthusiastic 
+in learning the subject he will be giving a problem at the first day of semester.
+The student who tops they will be awarded with cash prize. In regard to this 
+he asked the students to work on concept related to strings, he gave a task to
+read a word and find the count of all the turn of phrases of the word, and 
+the phrases should be distinct.
+
+Now it’s time for you to create a method which satisfies the above program.
+A turn of phrases of a word is obtained by deleting 
+any number of characters (possibly zero) from the front of the word and
+any number of characters (possibly zero) from the back of the word.
+
+Input Format:
+-------------
+A single string, the word.
+
+Output Format:
+--------------
+Print an integer, number of distinct phrases possible.
+
+
+Sample Input-1:
+---------------
+aabbaba
+
+Sample Output-1:
+----------------
+21
+
+Explanation:
+-------------
+The turn of phrases of the word, which are distinct as follows:
+a, b, aa, bb, ab, ba, aab, abb, bab, bba, aba, aabb, abba, bbab, baba, 
+aabba, abbab, bbaba, aabbab, abbaba, aabbaba
+
+
+Sample Input-2:
+---------------
+kmithyd
+
+Sample Output-2:
+----------------
+28
+
+Test Cases:
+case =1
+input =aabbaba
+output =21
+
+case =2
+input =kmithyd
+output =28
+
+case =3
+input =narayanagudahyderabad
+output =218
+
+case =4
+input =lkejfohonvlkads
+output =116
+
+case =5
+input =keshavmemorialinstituteoftechnology
+output =612
+
+case =6
+input =neilogteinstituteoftechnology
+output =413
+
+case =7
+input =aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+output =37
+
+case =8
+input =abaabbaaabbbaaaabbbbaaaaabbbbbaaaaaabbbbbb
+output =708
+
+*/
+Solution:
+import java.util.*;
+
+class TrieNode {
+	TrieNode[] children;
+	public TrieNode() {
+		children = new TrieNode[26];
+	}
+}
+
+class CountDistinct {
+	public int countDistinct(String s) {
+		TrieNode trie = new TrieNode();
+		int res = 0;
+		for (int i = 0; i < s.length(); i ++){
+			TrieNode cur = trie;
+			for (int j = i; j < s.length(); j ++){
+				int idx = s.charAt(j) - 'a';
+				if (cur.children[idx] == null){
+					cur.children[idx] = new TrieNode();
+					res ++;
+				}
+				cur = cur.children[idx];
+			}
+		}
+		return res;
+	}
+	public static void main(String[] args) { 
+		Scanner sc=new Scanner(System.in);
+		String s=sc.next();
+		System.out.println(new CountDistinct().countDistinct(s) ); 
+	} 
+}
+/*
+class CountDistinct {
+    int res=0;
+    Node trie[]=new Node[26];
+    public int countDistinct(String s) {
+        for(int i=0;i<s.length();i++){
+            insert(trie,s,i);
+        }
+        
+        for(int i=0;i<s.length();i++){
+            find(trie,s,i);
+        }
+        
+        return res;
+    }
+    
+    public void insert(Node trie[],String s,int index){
+		if(index>=s.length())return;
+		int i=s.charAt(index)-'a';
+		if(trie[i]==null)trie[i]=new Node();
+		insert(trie[i].childs,s,index+1);
+	}
+	
+	public void find(Node trie[],String s,int index){
+		if(index>=s.length())return;
+		int i=s.charAt(index)-'a';
+		trie[i].cnt++;
+		if(trie[i].cnt==1){
+			this.res++;
+		}
+		find(trie[i].childs,s,index+1);
+	}
+    
+    class Node{
+        Node childs[]=new Node[26];
+        int cnt=0;
+    }
+	public static void main(String[] args) { 
+		Scanner sc=new Scanner(System.in);
+		String s=sc.next();
+		System.out.println(new CountDistinct().countDistinct(s) ); 
+	} 
+}
+*/

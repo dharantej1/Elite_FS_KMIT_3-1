@@ -1,0 +1,95 @@
+/*
+Clavius, the person who suggested grouping of data using brackets.
+He has suggested that the grouping should be well formed.
+Well formed groupings are as follows, (), [], {}, {()}, {[]()}, {[]}(), etc.
+
+You will be given a string S, return true if the string S is a well formed 
+grouping, otherwise false.
+
+Note: S contains only characters ( ) [ ] { }
+
+Input Format:
+-------------
+A string S, contains only characters (){}[]
+
+Output Format:
+--------------
+Print a boolean value.
+
+
+Sample Input-1:
+---------------
+{[([])[]]}
+
+Sample Output-1:
+----------------
+true
+
+Sample Input-2:
+---------------
+{[([])[]}]
+
+Sample Output-2:
+----------------
+false
+
+Test Cases:
+case =1
+input ={[([])[]]}
+output =true
+
+case =2
+input ={[([])[]}]
+output =false
+
+case =3
+input ={[[[([]){}([[{}]])]]]}
+output =true
+
+case =4
+input ={[[[([])}{([[{}]])]]]}
+output =false
+
+case =5
+input ={{[({}(){}[[()]])][([()])]}}
+output =true
+
+case =6
+input ={{[({}(){}[[()])]][([()])]}}
+output =false
+
+case =7
+input ={{[({}(){}[[({[[[([]){}([[{}]])]]]})]])][([({[([])[]]})])]}}
+output =true
+
+case =8
+input ={{[({}(){}[[({[[[([[{}]])[]){}(]]]})]])][([({[([])[]]})])]}}
+output =false
+
+*/
+
+Solution:
+import java.util.*;
+class WellFormedString {
+	public boolean isWellFormed(String s) {
+		Stack<Character> stack = new Stack<Character>();
+		for (char c : s.toCharArray()) {
+			if (c == '(')
+				stack.push(')');
+			else if (c == '{')
+				stack.push('}');
+			else if (c == '[')
+				stack.push(']');
+			else if (stack.isEmpty() || stack.pop() != c)
+				return false;
+		}
+		return stack.isEmpty();
+	}
+
+	public static void main(String args[])
+	{
+		Scanner sc=new Scanner(System.in);
+		String s=sc.next();
+		System.out.println(new WellFormedString().isWellFormed(s));
+	}
+}

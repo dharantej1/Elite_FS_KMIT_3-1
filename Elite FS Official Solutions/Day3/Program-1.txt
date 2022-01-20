@@ -1,0 +1,118 @@
+/*
+Kiran Rao purchased two boxes (Box1,Box2) of unique weights 
+of gold coins, where first box weights are subset of second box gold weights.
+
+ Now design a method for Gumadi Baleshwar Rao to find all the next largest weights 
+of Box1 gold coins in the corresponding locations of box2 , 
+if doesn’t exist return -1.
+
+The Next largest Weight is Weight ‘W’ in Box1 is the first largest weight 
+ to its right side weight in Box2.
+
+NOTE: Unique weights means, no two coins will have same weight.
+
+ Input Format:
+ -------------
+Line-1: space separated integers, weihts of gold coins in the first box.
+Line-2: space separated integers, weihts of gold coins in the second box.
+
+Output Format:
+--------------
+ Print a list of integers, next largest weights
+
+Sample Input-1:
+---------------
+ 4 3 2
+ 1 3 4 2
+
+Sample Output-1:
+ ----------------
+ [-1, 4, -1]
+
+
+ Sample Input-2:
+ ---------------
+5 6 3 4
+1 5 3 7 8 6 4 2
+
+ Sample Output-2:
+ ----------------
+[7, -1, 7, -1]
+
+
+Test Cases:
+case =1
+input =5 6 3 4
+1 5 3 7 8 6 4 2
+output =[7, -1, 7, -1]
+
+case =2
+input =4 3 2
+1 3 4 2
+output =[-1, 4, -1]
+
+case =3
+input =24 4 1 6 19 2
+24 23 4 1 3 27 6 19 2 16
+output =[27, 27, 3, 19, -1, 16]
+ 
+case =4
+input =2 4
+1 2 3 4
+output =[3, -1]
+
+case =5
+input =40 16 28 44 29 35 39 34 42 19 48 2 41 7 4 3
+20 8 23 33 38 40 16 28 44 29 15 11 12 35 39 34 42 36 10 9 37 13 19 48 2 41 7 4 3 24
+output =[44, 28, 44, 48, 35, 39, 42, 42, 48, 48, -1, 41, -1, 24, 24, 24]
+
+case =6
+input =47 50 25 40 21 7 6 5 4 3 2 11
+11 14 16 18 20 21 23 24 41 42 45 46 47 49 50 25 26 28 30 31 33 35 38 40 11 14 16 18 20 7 6 5 4 3 2
+output =[49, -1, 26, -1, 23, -1, -1, -1, -1, -1, -1, 14]
+
+case =7
+input =49 39 36 27 29 21 48 22 37 41 43 35
+24 37 7 6 17 48 49 28 43 22 13 9 21 26 12 11 14 32 41 39 5 36 15 35 4 27 10 3 30 29
+output =[-1, -1, -1, 30, -1, 26, 49, 26, 48, -1, -1, -1]
+
+case =8
+input =20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
+30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
+output =[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+*/
+Solution:
+
+import java.util.*;
+
+class NextGreaterWeight{
+    public int[] largestBoxWeight(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> myMap = new HashMap<>();
+
+        int[] stack = new int[nums2.length];
+        int top = -1;
+
+        for (int i = 0; i < nums2.length; i++) {
+            while (top > -1 && nums2[i] > stack[top])
+                myMap.put(stack[top--], nums2[i]);
+            stack[++top] = nums2[i];
+        }
+
+        for (int i = 0; i < nums1.length; i++)
+            nums1[i] = myMap.getOrDefault(nums1[i], -1);
+        return nums1;
+    }
+	
+	public static void main(String args[] ) throws IOException {
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		String str1 = br.readLine();
+		String[] sarr1 = str.split(" ");
+		int[] nums1 = Arrays.asList(sarr).stream().mapToInt(Integer::parseInt).toArray();
+		String str2 = br.readLine();
+		String[] sarr2 = str.split(" ");
+		int[] nums = Arrays.asList(sarr).stream().mapToInt(Integer::parseInt).toArray();
+		
+		System.out.println(new NextGreaterWeight().largestBoxWeight(nums1,nums2));
+	}
+}

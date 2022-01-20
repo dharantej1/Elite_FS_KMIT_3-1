@@ -1,0 +1,132 @@
+/*
+Given two strings S1 and S2, find if S2 can match S1 or not.
+
+A match that is both one-to-one (an injection) and onto (a surjection), 
+i.e. a function which relates each letter in string S1 to a separate and 
+distinct non-empty substring in S2, where each non-empty substring in S2
+also has a corresponding letter in S1.
+
+Return true,if S2 can match S1.
+Otherwise false.
+
+Input Format:
+-------------
+Line-1 -> Two strings S1 and S2
+
+Output Format:
+--------------
+Print a boolean value as result.
+
+
+Sample Input-1:
+---------------
+abab kmitngitkmitngit
+
+Sample Output-1:
+----------------
+true
+
+
+Sample Input-2:
+---------------
+aaaa kmjckmjckmjckmjc
+
+Sample Output-2:
+----------------
+true
+
+Sample Input-3:
+---------------
+mmnn pqrxyzpqrxyz
+
+Sample Output-3:
+----------------
+false
+
+Test Cases:
+
+case =1
+input =abab kmitngitkmitngit
+output =true
+
+case =2
+input =aaaa kmjckmjckmjckmjc
+output =true
+
+case =3
+input =aabb xyzabcxyzabc
+output =false
+
+case =4
+input =kick keshavsmarakcollegekeshav
+output =true
+
+case =5
+input =assam applesapotasapotamangoapple
+output =false
+
+case =6
+input =redivider keshavmemorialinstituteoftechnologyofinstitutememorialkeshav
+output =true
+
+case =7
+input =redivider keshavmemorialinstituteoftechnologymemorialinstituteoftechnology
+output =false
+
+case =8
+input =tictoctoe temptationicecreamcreamstonetemptationoreobiscuitcreamstonetemptationoreobiscuitelephanthouse
+output =true
+
+*/
+
+Solution:
+
+import java.util.*;
+
+public class MatchStrings{
+	public boolean matchStrings(String pattern, String str) {
+		String[] map = new String[26]; // mapping of characters 'a' - 'z'
+		HashSet<String> set = new HashSet<>(); // mapped result of 'a' - 'z'
+		return matchStrings(pattern, str, map, set, 0, str.length()-1, 0, pattern.length()-1);
+	}
+	private boolean matchStrings(String pattern, String str, String[] map, HashSet<String> set, int start, int end, int startP, int endP) {
+		if(startP==endP+1 && start==end+1) return true; // both pattern and str are exhausted
+		if((startP>endP && start<=end) || (startP<endP && start>end)) return false; // either of pattern or str is exhausted
+
+		char ch = pattern.charAt(startP);
+		String matched = map[ch-'a'];
+		if(matched!=null) { // ch is already mapped, then continue
+			int count = matched.length();
+			return start+count<=end+1 && matched.equals(str.substring(start, start+count)) // substring equals previously mapped string
+					&& matchStrings(pattern, str, map, set, start+matched.length(), end, startP+1, endP); // moving forward
+		}
+		else {
+			int endPoint = end;
+			for(int i=endP; i>startP; i--) {
+				endPoint -= map[pattern.charAt(i)-'a']==null ? 1 : map[pattern.charAt(i)-'a'].length();
+			}
+			for(int i=start; i<=endPoint; i++) { // try every possible mapping, from 1 character to the end
+				matched = str.substring(start, i+1);
+				if(set.contains(matched)) continue; // different pattern cannot map to same substring
+
+				map[ch-'a'] = matched; // move forward, add corresponding mapping and set content
+				set.add(matched);
+
+				if(matchStrings(pattern, str, map, set, i+1, end, startP+1, endP)) return true;
+
+				else { // backtracking, remove corresponding mapping and set content
+					map[ch-'a'] = null;
+					set.remove(matched);
+				}
+			}
+		}
+		return false; // exhausted
+	}
+	
+	public static void main(String args[] ) {
+		Scanner sc = new Scanner(System.in);
+		String pattern=sc.next();
+		String str=sc.next();
+		System.out.println(new MatchStrings().matchStrings(pattern,str));
+	} 	
+}

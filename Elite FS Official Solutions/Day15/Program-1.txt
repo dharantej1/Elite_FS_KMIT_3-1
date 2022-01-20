@@ -1,0 +1,161 @@
+/*
+In an english training institute, the trainer Reeta given a task to the trainees.
+We know that, in english we have prefixes and suffixes for the words.
+You can divide a word as concatenation of prefix and suffix.
+i.e., word = prefix + suffix, another = an + other
+
+You will be given a list of prefixes and a statement consisting of words.
+Now, the task given to the trainees is as follows:
+	- Replace all the words in the statement with the prefix, 
+	  if you found prefix of that word in the list.
+	- If you found more than one prefix in the list for a word in the statement,
+	  replace the word with the prefix that has the shortest length.
+
+Your task is to help the trainees to prepare and print the final statement
+after all the replacements done.
+
+Input Format:
+-------------
+Line-1: Space separated strings, prefixes.
+Line-2: A single line of words, statement.
+
+Output Format:
+--------------
+Print the String, the final statement.
+
+
+Sample Input-1:
+---------------
+am add mean ref 
+amigos used to address or refer to a friend
+
+Sample Output-1:
+----------------
+am used to add or ref to a friend
+
+
+Sample Input-2:
+---------------
+th the pa tho
+thomas the trainer teaches theroy part of thermodynamics
+
+Sample Output-2:
+----------------
+th th trainer teaches th pa of th
+
+Test Cases:
+case =1
+input =am add mean ref 
+amigos used to address or refer to a friend
+output =am used to add or ref to a friend
+
+case =2
+input =th the pa tho
+thomas the trainer teaches theroy part of thermodynamics
+output =th th trainer teaches th pa of th
+
+case =3
+input =cat bat rat
+the cattle was rattled by the battery
+output =the cat was rat by the bat
+
+case =4
+input =a b c
+aadsfasf absbs bbab cadsfafs
+output =a a b c
+
+case =5
+input =a aa aaa aaaa
+a aa a aaaa aaa aaa aaa aaaaaa bbb baba ababa
+output =a a a a a a a a bbb baba a
+
+case =6
+input =ab ac
+it is abnormal that this solution is accepted
+output =it is ab that this solution is ac
+
+case =7
+input =yo you yor ne new nee
+you know new york you need new york you know you need unique new york
+output =yo know ne yo yo ne ne yo yo know yo ne unique ne yo
+
+case =8
+input =bit but bet bot bi bat
+betty botter bought some butter but she said the butters bitter if i put it in my batter it will make my batter bitter but a bit of better butter will make my batter better so better betty botter bought a bit of better butter
+output =bet bot bought some but but she said the but bi if i put it in my bat it will make my bat bi but a bi of bet but will make my bat bet so bet bet bot bought a bi of bet but
+
+*/
+Solution:
+import java.util.*;
+
+class ReplaceWords {
+    public String replaceWords(List<String> dict, String sentence) {
+        String[] tokens = sentence.split(" ");
+        TrieNode trie = buildTrie(dict);
+        return replaceWords(tokens, trie);
+    }
+
+    private String replaceWords(String[] tokens, TrieNode root) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String token : tokens) {
+            stringBuilder.append(getShortestReplacement(token, root));
+            stringBuilder.append(" ");
+        }
+        return stringBuilder.substring(0, stringBuilder.length()-1);
+    }
+
+    private String getShortestReplacement(String token, final TrieNode root) {
+        TrieNode temp = root;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char c : token.toCharArray()) {
+            stringBuilder.append(c);
+            if (temp.children[c - 'a'] != null) {
+                if (temp.children[c - 'a'].isWord) {
+                    return stringBuilder.toString();
+                }
+                temp = temp.children[c - 'a'];
+            } else {
+                return token;
+            }
+        }
+        return token;
+    }
+
+    private TrieNode buildTrie(List<String> dict) {
+        TrieNode root = new TrieNode(' ');
+        for (String word : dict) {
+            TrieNode temp = root;
+            for (char c : word.toCharArray()) {
+                if (temp.children[c - 'a'] == null) {
+                    temp.children[c - 'a'] = new TrieNode(c);
+                }
+                temp = temp.children[c - 'a'];
+            }
+            temp.isWord = true;
+        }
+        return root;
+    }
+
+    public class TrieNode {
+        char val;
+        TrieNode[] children;
+        boolean isWord;
+
+        public TrieNode(char val) {
+            this.val = val;
+            this.children = new TrieNode[26];
+            this.isWord = false;
+        }
+    }
+	
+	public static void main(String args[])
+	{
+		Scanner sc=new Scanner(System.in);
+		String[] s=sc.nextLine().split(" ");
+		String sentence=sc.nextLine();
+		List<String> list=new ArrayList<String>();
+		for(String str: s)
+			list.add(str);
+		System.out.println(new ReplaceWords().replaceWords(list,sentence));
+	}
+}

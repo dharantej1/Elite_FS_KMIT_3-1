@@ -1,0 +1,165 @@
+/*
+Given a board of size n*n, filled with numbers.
+
+Your task is to find the total sum of the the diagonal-1 numbers and diagonal-2 numbers in the board.
+consider the intersection value of the two diagonals(if any) only once in total sum.
+
+Input Format:
+-------------
+Line-1 -> An integer N, size of square board.
+Next N lines -> N space separated integers 
+
+Output Format:
+--------------
+Print the diagonal sum.
+
+
+Sample Input-1:
+---------------
+3
+1 2 3
+4 5 6
+7 8 9
+
+Sample Output-1:
+----------------
+25
+
+Explanation: diagonal-1 + diagonal-2 (exclude intersection-5) = (1+5+9) + (3+7) = 25
+
+Sample Input-2:
+---------------
+4
+1 2 3 4
+1 2 3 4
+1 2 3 4
+1 2 3 4
+
+Sample Output-2:
+----------------
+20
+
+Explanation: diagonal-1 + diagonal-2 (exclude intersection) = (1+2+3+4) + (4+3+2+1) = 20
+
+
+Test Cases:
+case =1
+input =4
+1 2 3 4
+1 2 3 4
+1 2 3 4
+1 2 3 4
+output =20
+
+case =2
+input =3
+1 2 3
+4 5 6
+7 8 9
+output =25
+
+case =3
+input =5
+78 90 65 1 81
+25 2 58 86 2
+38 80 90 46 30
+37 20 87 29 86
+73 47 52 36 38
+output =497
+
+case =4
+input =6
+94 17 4 44 56 66
+51 33 97 46 26 30
+44 29 41 76 37 8
+78 8 14 60 13 89
+17 33 13 56 84 53
+23 81 61 2 75 45
+output =595
+
+case =5
+input =6
+77 58 49 3 2 2
+72 77 11 56 88 41
+97 82 25 40 19 51
+42 19 38 81 90 9
+79 50 50 30 48 3
+34 19 21 85 17 37
+output =597
+
+case =6
+input =8
+89 11 3 50 74 34 4 10
+15 98 9 62 75 95 65 12
+68 100 96 69 54 84 31 9
+58 26 42 6 26 49 40 62
+82 62 87 39 36 82 35 44
+30 4 93 66 54 44 73 47
+91 88 74 98 56 80 55 18
+1 37 3 2 90 88 41 15
+output =845
+
+case =7
+input =8
+77 6 44 72 59 35 46 42
+4 24 49 24 37 83 96 81
+70 41 85 6 27 50 25 91
+33 27 6 18 38 52 9 27
+32 77 13 9 79 23 30 89
+79 38 28 22 28 65 33 35
+8 23 26 7 46 38 27 15
+85 66 12 15 24 15 71 78
+output =824
+
+case =8
+input =10
+78 48 32 21 19 19 20 90 10 37
+96 23 66 28 17 87 54 54 37 97
+90 26 54 76 62 16 45 43 51 28
+51 54 76 48 95 10 74 44 75 26
+30 97 76 100 56 94 32 37 2 11
+100 68 72 12 76 31 15 19 31 63
+39 57 75 1 83 2 83 67 8 100
+10 19 56 18 47 86 74 85 26 20
+7 35 87 43 21 36 28 26 86 44
+44 32 24 57 37 1 87 48 82 100
+output =1141
+*/
+
+Solution:
+import java.util.*;
+
+class Diagonals{
+    private Map<String, Integer> memo = new HashMap<>();
+
+    private int dfs(int x, int y) {
+        String key = x + "," + y;
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+
+        if (x + y == 0) {
+            return 0;
+        } else if (x + y == 2) {
+            return 2;
+        } else {
+            Integer ret = Math.min(dfs(Math.abs(x - 1), Math.abs(y - 2)),
+                    dfs(Math.abs(x - 2), Math.abs(y - 1))) + 1;
+            memo.put(key, ret);
+            return ret;
+        }
+    }
+
+    public int diagonalSum(int x, int y) {
+        return dfs(Math.abs(x), Math.abs(y));
+    }
+
+	public static void main(String args[])
+    {
+        Scanner scan = new Scanner(System.in);
+        int x=scan.nextInt();
+        int y=scan.nextInt();
+
+		System.out.println(new Diagonals().diagonalSum(x,y));
+	}
+}

@@ -1,0 +1,118 @@
+/*
+Bablu is working in a construction field.
+He has N number of building blocks, where the height and width of all the blocks are same.
+And the length of each block is given in an array, blocks[].
+
+Bablu is planned to build a wall in the form of a square.
+The rules to cunstruct the wall are as follows:
+	- He should use all the building blocks.
+	- He should not break any building block, but you can attach them with other.
+	- Each building-block must be used only once.
+	
+Your task is to check whether Bablu can cunstruct the wall as a square
+with the given rules or not. If possible, print true. Otherwise, print false.
+
+Input Format:
+-------------
+Line-1: An integer N, number of BuildingBlocks.
+Line-2: N space separated integers, length of each block.
+
+Output Format:
+--------------
+Print a boolean value.
+
+
+Sample Input-1:
+---------------
+6
+1 2 6 4 5 6
+
+Sample Output-1:
+----------------
+true
+
+
+Sample Input-2:
+---------------
+6
+5 3 2 5 5 6
+
+Sample Output-2:
+----------------
+false
+
+Test Cases:
+case =1
+input =6
+5 3 2 5 5 6
+output =false
+
+case =2
+input =6
+1 2 6 4 5 6
+output =true
+
+case =3
+input =10
+66 55 81 83 84 89 80 38 81 22
+output =false
+
+case =4
+input =13
+13 11 1 8 6 7 8 8 6 7 8 9 8
+output =true
+
+case =5
+input =20
+13 10 18 10 15 13 18 14 12 12 11 14 16 18 17 13 15 16 10 17
+output =false
+
+case =6
+input =24
+19 18 17 16 8 15 9 14 13 12 11 10 10 11 12 8 9 13 14 15 16 17 18 19
+output =true
+
+case =7
+input =24
+15 14 17 16 19 12 14 11 19 11 17 15 19 17 12 10 19 10 18 19 17 18 14 10
+output =false
+
+case =8
+input =24
+44 45 43 46 42 47 33 38 37 54 48 56 49 50 52 53 34 36 35 39 41 55 40 51
+output =true
+
+*/
+Solution:
+import java.util.*;
+
+class FormSquare {
+    public boolean makesquare(int[] nums) {
+        if(nums==null || nums.length==0) return false;
+        int sum=0;
+        for(int num:nums) sum+=num;
+        if(sum%4!=0) return false;
+        Arrays.sort(nums);
+        return dfs(nums,new int[4],nums.length-1,sum/4);
+    }
+    boolean dfs(int[] nums,int[] sums,int index,int target){
+        if(index==-1) return true;
+        for(int i=0;i<4;i++){
+            if((sums[i]+nums[index]>target) || (i>0 && sums[i]==sums[i-1])) continue;
+            sums[i]+=nums[index];
+            if(dfs(nums,sums,index-1,target)) return true;
+            sums[i]-=nums[index];
+        }
+        return false;
+    }
+	
+	public static void main(String args[] ) {
+		Scanner sc = new Scanner(System.in);
+		int n=sc.nextInt();
+		int arr[]=new int[n];
+		for(int i=0;i<n;i++)
+			arr[i]=sc.nextInt();
+
+		System.out.println(Arrays.toString(new FormSquare().makesquare(arr)));
+	}	
+}

@@ -1,0 +1,126 @@
+/*
+Mr Suresh is working with the plain text P, a list of words w[], 
+He is converting P into C [the cipher text], C is valid cipher of P, 
+if the following rules are followed:
+	- The cipher-text C is a string ends with '$' character.
+	- Every word, w[i] in w[], should be a substring of C, and 
+	the substring should have $ at the end of it.
+
+Your task is to help Mr Suresh to find the shortest Cipher C,  
+and return its length.
+
+Input Format:
+-------------
+Single line of space separated words, w[].
+
+Output Format:
+--------------
+Print an integer result, the length of the shortest cipher.
+
+
+Sample Input-1:
+---------------
+kmit it ngit
+
+Sample Output-1:
+----------------
+10
+
+Explanation:
+------------
+A valid cipher C is "kmit$ngit$".
+w[0] = "kmit", the substring of C, and the '$' is the end character after "kmit"
+w[1] = "it", the substring of C, and the '$' is the end character after "it"
+w[2] = "ngit", the substring of C, and the '$' is the end character after "ngit"
+
+
+Sample Input-2:
+---------------
+ace
+
+Sample Output-2:
+----------------
+4
+
+Explanation:
+------------
+A valid cipher C is "ace$".
+w[0] = "ace", the substring of C, and the '$' is the end character after "ace"
+
+Test Cases:
+case =1
+input =kmit it ngit
+output =10
+
+case =2
+input =ace
+output =4
+
+case =3
+input =a aa aaa aaaa aaaaa aaaaaa
+output =7
+
+case =4
+input =a ab abc abcd abcde abcdef abcdefg
+output =35
+
+case =5
+input =abcdefg bcdefg cdefg defg efg fg g
+output =8
+
+case =6
+input =link ink knee nest stamp ample please send end
+output =39
+
+case =7
+input =all lloyd door ortho thor horse sell lloyd dust stool tool link ink knee neet eternal algo go goto tour
+output =86
+
+case =8
+input =abc cde efg fg ghi hjkl klmno lmno pqrstu tuvx uvwxy wxyz
+output =50
+
+case =9
+input =start art artist prefix suffix fix fixture intention tension ten
+output =57
+
+case =10
+input =start art artist prefix suffix fix fixture intention tension ten stick tick interest rest east
+output =77
+
+*/
+Solution:
+
+import java.util.*;
+
+class TrieNode {
+    HashMap<Character, TrieNode> next = new HashMap<>();
+    int depth;
+}
+
+class Encoding {
+    public int minimumLengthEncoding(String[] words) {
+        TrieNode root = new TrieNode();
+        List<TrieNode> leaves = new  ArrayList<TrieNode>();
+        for (String w : new HashSet<>(Arrays.asList(words))) {
+            TrieNode cur = root;
+            for (int i = w.length() - 1; i >= 0; --i) {
+                char j = w.charAt(i);
+                if (!cur.next.containsKey(j)) cur.next.put(j, new TrieNode());
+                cur = cur.next.get(j);
+            }
+            cur.depth = w.length() + 1;
+            leaves.add(cur);
+        }
+        int res = 0;
+        for (TrieNode leaf : leaves) if (leaf.next.isEmpty()) res += leaf.depth;
+        return res;
+    }
+	
+	public static void main(String args[])
+	{
+		Scanner sc=new Scanner(System.in);
+		String[] sarr=sc.nextLine().split(" ");
+		System.out.println(new Encoding().minimumLengthEncoding(sarr));
+	}
+}

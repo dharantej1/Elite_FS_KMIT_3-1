@@ -1,0 +1,157 @@
+/*
+There are some Warships, approaching the borders of India and curretly
+situated in Bay of Bengal. One of the secret agent sent the picture of the warships.
+ 
+The picture size is M * N, and he has marked each 1*1 part of the picture either 
+with the Warships as 'W' or an empty place as 'E'. The Indian Navy want to destroy
+those Warships using Torpedos, with one Torpedo you can destroy one Warship.
+
+ The Warships are mentioned either horizontally or vertically in the picture. 
+ And it is also mentioned that there are no adjacent warships.
+
+Your target is find the number of Torpedos required to destroy all the Warships.
+
+Input Format:
+-------------
+ Line-1: Two space separated integers M and N.
+ Next M lines: N space separated characters, either W or E
+
+Output Format:
+--------------
+Print an integer, number of torpedos required.
+  
+ Sample Input-1:
+ ---------------
+ 2 3
+ W E E
+ W E E
+
+Sample Output-1:
+ ----------------
+ 1
+
+
+ Sample Input-2:
+---------------
+ 4 5
+ W E E W W
+ W E W E E
+ W E W E W
+ W E W E W
+ 
+Sample Output-2:
+----------------
+ 4
+
+
+Test Cases:
+case =1
+input =2 3
+W E E
+W E E
+output =1
+
+case =2
+input =4 5
+W E E W W
+W E W E E
+W E W E W
+W E W E W
+output =4
+
+case =3
+input =4 5
+W E E W W
+W E E E E
+W E W W W
+W E E E E
+output =3
+
+case =4
+input =5 6
+E E E W E W
+W W E W E W
+E E E W E E
+E E E E W W
+W W W W E E
+output =5
+
+case =5
+input =8 10
+W E E E E W W W W W
+W E E W E E E E E E
+W E E W E W W W W E
+W E E W E E E E E E
+E E E E E W W E E E
+W W W W E E E W E E
+E E E E E E E W E E
+W W W E E E E W E E
+output =8
+
+case =6
+input =8 10
+W E E E E W W W W W
+W E E W E E E E E E
+W E E W E W W W W E
+W E E W E E E E E E
+E E E E E W W E E W
+W W W W E E E W E W
+E E E E W W E W E W
+W W W E E E E W E W
+output =10
+
+case =7
+input =6 6
+W W W W W W
+E E E E E E
+W E W W E W
+W E E E E W
+W E W W E W
+W E E E E W
+output =5
+
+case =8
+input =6 6
+E E E E E E
+W W W E E E
+E E E E E W
+W E E E E W
+W E W W E W
+W E E E E E
+output =4
+*/
+Solution:
+import java.util.*;
+
+class Test {
+    public int countBattleships(char[][] board) {
+        int m = board.length;
+        if (m==0) return 0;
+        int n = board[0].length;
+        
+        int count=0;
+        
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (board[i][j] == 'E') continue;
+                if (i > 0 && board[i-1][j] == 'W') continue;
+                if (j > 0 && board[i][j-1] == 'W') continue;
+                count++;
+            }
+        }
+        
+        return count;
+    }
+	
+	public static void main(String args[])
+    {
+        Scanner scan = new Scanner(System.in);
+        int m=scan.nextInt();
+        int n=scan.nextInt();
+        char[][] board = new char[m][n];
+        for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+			board[i][j]=scan.next().charAt(0);
+		System.out.println(new Test().countBattleships(board));
+	}
+}

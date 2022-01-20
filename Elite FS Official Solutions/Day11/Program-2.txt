@@ -1,0 +1,103 @@
+/*
+Given a string S in encoded form, and  an integer array of string length.
+
+You need find the decoded form of String S, 
+by moving each character at ith position in S, to indices[i] position in decoded string.
+and then print the decoded string.
+
+Input Format:
+-------------
+Line-1 -> A String S, enocded string of length L
+Line-2 -> L space separated integers arr[], where 0 <=arr[i] < L 
+
+Output Format:
+--------------
+Print a String, decoded string.
+
+
+Sample Input-1:
+---------------
+aeilmmor
+6 1 5 7 2 0 3 4
+
+Sample Output-1:
+----------------
+memorial
+
+Explanation:
+---------------
+Given String, aeilmmor
+6 1 5 7 2 0 3 4
+after shifting,	memorial
+
+
+Sample Input-2:
+---------------
+aidin
+4 3 2 0 1
+
+Sample Output-2:
+----------------
+india
+
+Explanation-2:
+---------------
+Given String, aidin
+4 3 2 0 1
+after shifting,	india
+
+Test Cases:
+case =1
+input =aeilmmor
+6 1 5 7 2 0 3 4
+output =memorial
+
+case =2
+input =aidin
+4 3 2 0 1
+output =india
+
+case =3
+input =abcdefghijklmnopqrstuv
+13 2 7 8 3 0 6 9 11 14 15 21 20 19 5 4 17 18 16 1 10 12
+output =ftbepogcdhuivajksqrnml
+
+case =4
+input =frakitmomim
+3 4 1 7 0 10 2 5 6 9 8
+output =iamfromkmit
+
+case =5
+input =abbcccddddeeeeeffffff
+20 10 9 8 4 5 3 2 6 7 0 1 15 13 16 11 18 12 14 17 19
+output =eeddccddcbbffefeefffa
+
+case =6
+input =noeefhrrstbcijkooxpqmuuvw
+12 10 2 23 13 1 24 9 20 0 8 6 5 16 7 14 21 15 19 3 18 17 4 22 11
+output=thequickbrownfoxjumpsover
+
+
+*/
+
+import java.util.*;
+
+class ShuffleString {
+    public String restoreString(String s, int[] in) {
+        char[] c = new char[in.length];
+        for(int i = 0; i < in.length; i++)
+            c[in[i]] = s.charAt(i);
+        return new String(c);
+    }
+	
+	public static void main(String args[] ) {
+		Scanner sc = new Scanner(System.in);
+		String S=sc.nextLine();
+		String[] sarr=sc.nextLine().split(" ");
+		int[] array=new int[sarr.length];
+		for(int i=0;i<sarr.length;i++)
+			array[i]=Integer.parseInt(sarr[i]);
+		System.out.println(new ShuffleString().restoreString(S,array));
+	}
+	
+}

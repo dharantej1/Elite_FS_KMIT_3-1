@@ -1,0 +1,195 @@
+/*
+There are a group of kids playing a game in a circle.This game is to check their
+Arithmetic division skills.We will start the game by selecting a kid and he has 
+to say 1 to start the game and the next kid turn arrives he has to say next 
+number but with the following rules.
+   - if number is divisible by 3 then the answer is "Hi".
+   - if number is divisible by 5 then the answer is "Hello".
+   - if number is divisible by both 3 and 5 then the answer is "HiHello".
+   - else the answer is the number itself.
+
+ Given a number N , return a string array result[] (1-indexed),which consists the 
+ answers from kid-1 to kid-N.
+
+Input Format:
+-------------
+Line-1: An integer N.
+
+Output Format:
+--------------
+Print a string array[].
+
+Constraints:
+• 1 <= n <= 10^4
+ 
+Sample Input-1:
+---------------
+4
+
+Sample Output-1:
+----------------
+1 2 Hi 4 
+
+
+Sample Input-2:
+---------------
+15
+
+Sample Output-2:
+----------------
+1 2 Hi 4 Hello Hi 7 8 Hi Hello 11 Hi 13 14 HiHello 
+ 
+Test Cases:
+case =1
+input =4
+output =1 2 Hi 4 
+    
+case =2
+input =15
+output =1 2 Hi 4 Hello Hi 7 8 Hi Hello 11 Hi 13 14 HiHello 
+ 
+case =3
+input =1
+output =1
+ 
+case =4
+input =25
+output =1 2 Hi 4 Hello Hi 7 8 Hi Hello 11 Hi 13 14 HiHello 16 17 Hi 19 Hello Hi 22 23 Hi Hello 
+ 
+case =5
+input =27
+output =1 2 Hi 4 Hello Hi 7 8 Hi Hello 11 Hi 13 14 HiHello 16 17 Hi 19 Hello Hi 22 23 Hi Hello 26 Hi
+   
+case =6
+input =16
+output =1 2 Hi 4 Hello Hi 7 8 Hi Hello 11 Hi 13 14 HiHello 16 
+ 
+case =7
+input =3
+output =1 2 Hi 
+ 
+case =8
+input =6
+output =1 2 Hi 4 Hello Hi
+
+*/
+Solution:
+import java.util.function.IntConsumer; 
+import java.io.*;
+import java.util.Scanner;
+class FizzBuzz implements Runnable{
+    
+    private int n;
+    private int currentNumber = 1;
+    
+    public FizzBuzz(int n) {
+        this.n = n;
+    }
+	@Override
+	public void run() {
+		if("A".equals(Thread.currentThread().getName())) {
+    		try {
+    			fizz(printFizz);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    	if("B".equals(Thread.currentThread().getName())) {
+    		try {
+    			buzz(printBuzz);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+		if("C".equals(Thread.currentThread().getName())) {
+    		try {
+    			fizzbuzz(printFizzBuzz);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    	if("D".equals(Thread.currentThread().getName())) {
+    		try {
+    			number(printNumber);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+	}
+    Runnable printFizz = () -> { System.out.println("Hi"); };
+    
+    Runnable printBuzz = () -> { System.out.println("Hello"); };
+	
+	Runnable printFizzBuzz = () -> { System.out.println("HiHello"); };
+	
+	IntConsumer printNumber = a -> System.out.println(a);
+    
+	// printFizz.run() outputs "fizz".
+    public synchronized void fizz(Runnable printFizz) throws InterruptedException {
+        while (currentNumber <= n) {
+            if (currentNumber % 3 != 0 || currentNumber % 5 == 0) {
+                wait();
+                continue;
+            }
+            printFizz.run();
+            currentNumber += 1;
+            notifyAll();
+        }
+    }
+
+    // printBuzz.run() outputs "buzz".
+    public synchronized void buzz(Runnable printBuzz) throws InterruptedException {
+        while (currentNumber <= n) {
+            if (currentNumber % 5 != 0 || currentNumber % 3 == 0) {
+                wait();
+                continue;
+            }
+            printBuzz.run();
+            currentNumber += 1;
+            notifyAll();
+        }
+    }
+
+    // printFizzBuzz.run() outputs "fizzbuzz".
+    public synchronized void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {
+        while (currentNumber <= n) {
+            if (currentNumber % 15 != 0) {
+                wait();
+                continue;
+            }
+            printFizzBuzz.run();
+            currentNumber += 1;
+            notifyAll();
+        }
+    }
+
+    // printNumber.accept(x) outputs "x", where x is an integer.
+    public synchronized void number(IntConsumer printNumber) throws InterruptedException {
+        while (currentNumber <= n) {
+            if (currentNumber % 3 == 0 || currentNumber % 5 == 0) {
+                wait();
+                continue;
+            }
+            printNumber.accept(currentNumber);
+            currentNumber += 1;
+            notifyAll();
+        }
+    }
+	
+	public static void main(String[] args) throws IOException {
+    	Scanner sc=new Scanner(System.in);
+    	int n=sc.nextInt();
+        FizzBuzz fb = new FizzBuzz(n);
+        
+		Thread t1 = new Thread(fb,"A");
+        Thread t2 = new Thread(fb,"B");
+		Thread t3 = new Thread(fb,"C");
+		Thread t4 = new Thread(fb,"D");
+		
+		t1.start();
+        t2.start();
+		t3.start();
+		t4.start();
+    }
+	
+}

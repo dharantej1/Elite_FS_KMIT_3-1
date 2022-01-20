@@ -1,0 +1,113 @@
+/*
+Gachibowli Diwakar is a tremendous bowler in Indian Cricket Team.
+Diwakar has played in N Series of Games, and in each series he has taken the number of wickets.
+Now Gachibowli Diwakar's wickets count is arranged in ascending order which is a non-negative integer. 
+Create a method to generate the Gachibowli Diwakar W-index.
+
+According to the definition of W-index, Gachibowli Diwakar has index W, if W of his N series
+have at least W wickets each, and the other N-W series have no more than W wickets each.
+
+Note:
+If there are several possible values for W, the maximum one is taken as the W-index.
+
+Input Format:
+-------------
+Line-1: An integer N, number of series played by Diwakar.
+Line-2: N space separated integers, number of wickets in ascending order.
+
+Output Format:
+--------------
+Print an integer, value of index -W.
+
+
+Sample Input-1:
+---------------
+6
+0 1 3 4 5 6
+
+Sample Output-1:
+----------------
+3
+
+Explanation: [0, 1, 3, 4, 5, 6] means the Gachibowli Diwakar has 6 series in total and
+in each series he had taken 0, 1, 3, 4, 5, 6 wickets respectively.
+Since Gachibowli Diwakar has 3 series with at least 3 wickets each and the
+remaining three with no more than 3 wickets each, his W index is 3.
+
+Sample Input-2:
+---------------
+10
+1 3 7 10 12 20 21 24 26 32
+
+Sample Output-2:
+----------------
+7
+
+Test Cases:
+case =1
+input =6
+0 1 3 4 5 6
+output =3
+
+case =2
+input =5
+0 1 3 5 6
+output =3
+
+case =3
+input =6
+2 5 8 10 12 14
+output =5
+
+case =4
+input =15
+1 3 7 10 12 20 21 24 26 32 36 39 43 46 50
+output =11
+
+case =5
+input =15
+2 4 5 7 8 12 14 17 19 29 35 37 38 46 50
+output =10
+
+case =6
+input =10
+1 3 7 10 12 20 21 24 26 32
+output =7
+
+case =7
+input =25
+2 4 5 11 12 13 16 17 20 33 41 48 49 55 58 62 71 75 76 77 80 84 95 98 99
+output =17
+
+case =8
+input =30
+2 5 13 17 18 19 20 32 35 38 40 41 43 47 50 51 53 65 66 70 72 73 74 75 79 89 90 93 94 95
+output =23
+
+*/
+Solution:
+import java.util.*;
+
+public class HIndex {
+    public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0) return 0;
+        int l = 0, r = citations.length;
+        int n = citations.length;
+        while(l < r){
+            int mid = l + (r - l) / 2;
+            if(citations[mid] == n - mid) return n - mid;
+            if(citations[mid] < citations.length - mid) l = mid + 1;
+            else r = mid;
+        }
+        return n - l;
+    }
+	
+	public static void main(String[] args) { 
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int citations[]=new int[n];
+		for(int i=0;i<n;i++)
+			citations[i]=sc.nextInt();
+		System.out.println(new HIndex().hIndex(citations) ); 
+	}
+}

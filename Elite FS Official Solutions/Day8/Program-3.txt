@@ -1,0 +1,96 @@
+/*
+You are given two words W1 and W2.
+You need find all the mapping of W2 in W1, and 
+return all the statrting indices of the mappings.
+
+The mapping of the words w2 and w1 is as follows:
+	- A shuffled word contains all the characters as original word.
+	The length of the words and occurrence count of each character are same.
+	- find a shuffled word of W2 as a substring in W1, and 
+	return the starting index of substring.
+
+Input Format:
+-------------
+Single line space separated strings, two words.
+
+Output Format:
+--------------
+Print the list of integers, indices.
+
+
+Sample Input-1:
+---------------
+daddy
+ 
+Sample Output-1:
+----------------
+6
+
+
+Sample Input-2:
+---------------
+binary11101
+
+Sample Output-2:
+----------------
+
+
+Test Cases:
+case=1
+input=aaaba420gaaaaadu143guddddduuuuuflowwwwweeeeerrrrrr
+output=118
+
+case=2
+input=bbbbbbbbtattarrattatbbbbbbbbtattarrattatbbbbbbbbtattarrattatbbbbbbbbtattarrattat
+output=204
+
+case=3
+input=mommomom1010001010010101010010101omomomomomomommommomom10101010101000010000010100101omoommomomomo
+output=124
+
+case=4
+input=aaaaaaafffrrrrrrrrrrrrrrsfdgstryrdhgdghjyfgvdsf
+output=162
+
+case=5
+input=123456789ohmygoddddddaaaadddddddddyyyyyyyyyyyyyyybabaoiiiiiiiiiii
+output=282
+
+case=6
+input=nn99qbttxpse
+output=15
+
+case=7
+input=rrrssrrrcrabomrrmssrmmmkreemmmvalli
+output=52
+
+case=8
+input=abcabcsbacabcaabcabccaaccabcabcaabacbabaabcababacabacbcabcabcabcbababcacaaabacabcaacacbacbacb
+output=103
+
+
+*/
+Solutions:
+import java.util.Scanner;
+class Solution {
+    public int countLetters(String S) {
+        int ans = 0, repeat = 1;
+        for (int i = 1; i < S.length(); ++i, ++repeat) {
+            if (S.charAt(i) != S.charAt(i - 1)) { // previous char consectively occurs 'repeat' times.
+                ans += repeat * (repeat + 1) / 2;
+                repeat = 0;
+            }
+        }
+        return ans + repeat * (repeat + 1) / 2;
+    }
+}
+class SubString{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        Solution s = new Solution();
+        //System.out.println("Enter a string:");
+        String str = sc.nextLine();
+        int res = s.countLetters(str);
+        System.out.println(res);
+    }
+}
