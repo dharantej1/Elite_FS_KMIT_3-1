@@ -1,0 +1,80 @@
+Thomas constructing a Tree of N nodes, nodes labelled as 0, 1, 2, .. ,n-1.
+He is given a list of N-1 edges[], where edge[i]=[v1, v2], is an undirected 
+edge between v1 and v2.
+
+He can construct the tree by selecting any node as root node. Your task is
+to find out the trees with the smallest height, among all the trees. 
+Print the root nodes of all the smallest height trees in ascending order.
+
+NOTE: A Tree, is a connected graph without simple cycles.
+
+Input Format:
+-------------
+Line-1: An integer N, number of nodes.
+Next N-1 lines: Two integers, represent an edge.
+
+Output Format:
+--------------
+Print the list of root nodes of Smallest Height Trees in ascending order
+
+
+Sample Input-1:
+---------------
+4
+0 1
+2 1
+1 3
+
+Sample Output-1:
+----------------
+[1]
+
+Explanation:
+-------------
+For Tree Combinations look at the hint.
+
+
+Sample Input-2:
+---------------
+6
+3 0
+1 3
+3 2
+4 3
+5 4
+
+Sample Output-2:
+----------------
+[3, 4]
+
+
+
+def minHeightTree(n,edges):
+    if n <= 2:
+        return [i for i in range(n)]
+    neighbors = [set() for i in range(n)]
+    for start, end in edges:
+        neighbors[start].add(end)
+        neighbors[end].add(start)
+    leaves = []
+    for i in range(n):
+        if len(neighbors[i]) == 1:
+            leaves.append(i)
+    remaining_nodes = n
+    while remaining_nodes > 2:
+        remaining_nodes -= len(leaves)
+        new_leaves = []
+        while leaves:
+            leaf = leaves.pop()
+            neighbor = neighbors[leaf].pop()
+            neighbors[neighbor].remove(leaf)
+            if len(neighbors[neighbor]) == 1:
+                new_leaves.append(neighbor)
+        leaves = new_leaves
+    return sorted(leaves)
+if __name__=="__main__":   
+    n=int(input())
+    edges=[]
+    for i in range(n-1):
+        edges.append(list(map(int,input().split()))[:2])
+    print(minHeightTree(n,edges))
