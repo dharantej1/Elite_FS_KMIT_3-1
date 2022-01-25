@@ -43,3 +43,29 @@ Sample Output-2:
 
 
 
+def canArrange(n,slots):
+    start=[]
+    end=[]
+    for i in slots:
+        start.append(i[0])
+        end.append(i[1])
+    start.sort()
+    end.sort()
+    total,numb=0,0
+    b,e=0,0
+    while b<n:
+        if start[b]<end[e]:
+           b+=1
+           numb+=1
+        else:
+           e+=1
+           numb-=1
+        total=max(total,numb)
+    return total
+    
+if __name__=="__main__":
+    n=int(input())
+    slots=[]
+    for i in range(n):
+        slots.append(list(map(int,input().split())))
+    print(canArrange(n,slots))
