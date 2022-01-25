@@ -58,3 +58,53 @@ No level can be completed because they depend on each other.
 
 
 
+#include<bits/stdc++.h>
+using namespace std;
+ int topoSort(int V, vector<int> adj[])
+	{   vector<int> result;
+       queue<int> q;
+       vector<int> indegr(V, 0);
+       int c=0;
+
+       for (int i=0; i < V; i++)
+           for (auto j: adj[i])
+               indegr[j]++;
+       bool f=0;
+       for (int i=0; i < indegr.size(); i++){
+           if (indegr[i] == 0) {
+               f=1;
+                q.push(i);
+           }
+       }
+
+       while (!q.empty()){
+            c++;
+            int k=q.size();
+            while(k--){
+           int v = q.front();
+           q.pop();
+           result.push_back(v);
+           for (auto u: adj[v]){
+               indegr[u]--;
+               if (indegr[u] == 0){
+                   q.push(u);
+                   }
+           }
+            }
+
+       }
+       return result.size()==V?c:-1;
+
+	}
+int main()
+{
+    int V,E;
+    cin>>V>>E;
+    vector<int> adj[V];
+    while(E--){
+        int u,v;
+        cin>>u>>v;
+        adj[u-1].push_back(v-1);
+    }
+    cout<<topoSort(V,adj)<<endl;
+}
