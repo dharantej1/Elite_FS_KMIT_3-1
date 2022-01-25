@@ -57,3 +57,38 @@ bc_def
 
 
 
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int m,n,s;
+    cin>>m>>n>>s;
+    vector<string> w(s,"");
+    for(int i=0;i<s;i++){
+        cin>>w[i];
+    }
+    int c=0;
+    int j=0;
+    for(int i=0;i<m;i++){
+        string str="";
+        while(str.size()<n){
+            if(j==s){
+                c++;
+                j=0;
+            }
+            if(w[j].size()+str.size()>n){
+                while(str.size()!=n)    str+="_";
+                break;
+            }
+            else{
+                str+=w[j];
+                str+="_";
+                //cout<<str<<" "<<w[j]<<endl;
+                j++;
+            }
+            
+        }
+    }
+    if(j==s)
+        c++;
+    cout<<c;
+}
