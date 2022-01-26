@@ -1,0 +1,144 @@
+/*
+Problem Statement:
+------------------
+You are given a phrase and a paper of size m*n.
+So you can type exactly m * n characters on that paper.
+i.e,. there are 'm' rows and in each row you can type 'n' characters
+You need to type the phrase on the paper with some rules.
+
+The rules are as follows:
+    - A word in the phrase cannot be split into two lines.
+    - The order of words in the phrase shuld not change.
+    - Two consecutive words in a line must be separated by a single space.
+
+Your task is to find out how many times the phrase can be typed on the paper.
+
+constraint:
+	Length of each word is <=10.
+
+Input Format:
+-------------
+Line-1: Three space separated integers m, n, and s, grid size m*n, number of words.
+Line-2: 's' space separated strings, set of words
+
+Output Format:
+--------------
+Print an integer, no.of times set of words fit into the grid.
+
+
+Sample Input-1:
+---------------
+2 8 2
+socail distance
+
+Sample Output-1:
+----------------
+1
+
+Explanation:
+------------
+social__
+distance
+
+
+Sample Input-2:
+---------------
+3 6 3
+a bc def
+
+Sample Output-2:
+----------------
+2
+
+Explanation:
+------------
+a_bc__
+def_a_
+bc_def
+
+Test Cases:
+----------
+case =1
+input =3 6 3
+a bc def
+output =2
+
+case =2
+input =2 8 2
+social distance
+output =1
+
+case =3
+input =10 20 8
+in the kitchen you will find my mom
+output =5
+
+case =4
+input =30 40 8
+in the kitchen you will find my mom
+output =30
+
+case =5
+input =40 78 8
+mary might have been waiting outside for you
+output =66
+
+case =6
+input =20 56 6
+she helped to build the roof
+output =36
+
+case =7
+input =20 50 15
+eating ice cream on a hot day can be a good way to cool off
+output =16
+
+case =8
+input =30 80 15
+eating ice cream on a hot day can be a good way to cool off
+output =40
+
+*/
+
+Solution:
+---------
+import java.util.Scanner;
+
+class ScreenFitting
+{
+	static int wordsTyping(String[] sentence, int rows, int cols) {
+        int[] nextIndex = new int[sentence.length];
+        int[] times = new int[sentence.length];
+        for(int i=0;i<sentence.length;i++) {
+            int curLen = 0;
+            int cur = i;
+            int time = 0;
+            while(curLen + sentence[cur].length() <= cols) {
+                curLen += sentence[cur++].length()+1;
+                if(cur==sentence.length) {
+                    cur = 0;
+                    time ++;
+                }
+            }
+            nextIndex[i] = cur;
+            times[i] = time;
+        }
+        int ans = 0;
+        int cur = 0;
+        for(int i=0; i<rows; i++) {
+            ans += times[cur];
+            cur = nextIndex[cur];
+        }
+        return ans;
+    }
+		
+	public static void main(String args[]){
+		Scanner sc=new Scanner(System.in);
+		int r=sc.nextInt();
+		int c=sc.nextInt();
+		int s=sc.nextInt();
+		sc.nextLine();
+		String S[]=sc.nextLine().split(" ");
+		System.out.println(wordsTyping(S, r,c));
+	}
+}
