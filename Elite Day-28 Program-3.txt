@@ -41,13 +41,19 @@ false
 
 
 100/100
+import math
+def Jugs(m,n,p):
+    if m+n>=p:
+        return True if (p%(math.gcd(m,n))==0) else False
+    else:
+        return False
 
-
-
+m,n,p=map(int,input().split())
+print(Jugs(m,n,p))
 
 
 75/100
-m,n,p=map(int,input().split(" "))
+m,n,p=map(int,input().split())
 if (m+n)%p==0:
     print(True)
 else:
