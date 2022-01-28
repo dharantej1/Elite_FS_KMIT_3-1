@@ -1,0 +1,116 @@
+/*
+Problem Statement:
+------------------
+Ismart Shankar is given a set of N pluck cards, each card labelled 
+with a number on it, and he is also given a difference value as ‘D’.
+Now Ismart Shankar has to find out the length of the largest arithmetic set ‘S’.
+
+A subset is called as arithmetic set, iff the difference between 
+the numbers on any two adjacent cards is same as D.
+
+A subset can be derived from the set of N pluck cads by deleting
+some or no cards without changing the order of the remaining cards.
+
+Input Format:
+------------- 
+Line-1: Two space separated integers N, D, number of cards, difference.
+Line-2: N space separated integers, numbers on the set of cards.
+
+Output Format:
+--------------
+Print an integer, length of longest arithmetic subset.
+
+
+Sample Input-1:
+---------------
+6 2
+1 2 3 4 6 8
+
+Sample Output-1:
+----------------
+4
+
+Sample Input-2:
+---------------
+8 -2
+8 1 2 6 5 4 2 0 
+
+Sample Output-2:
+----------------
+5
+
+Test Cases:
+----------
+case =1
+input =6 2
+1 2 3 4 6 8
+output =4
+
+case =2
+input =8 -2
+8 1 2 6 5 4 2 0 
+output =5
+
+case =3
+input =9 -2
+1 5 7 8 5 3 4 2 1
+output =4
+
+case =4
+input =10 1
+1 2 3 4 5 6 7 8 9 10
+output =10
+
+case =5
+input =15 -2
+19 17 16 15 14 13 12 11 9 8 6 5 4 3 2
+output =6
+
+case =6
+input =20 3
+72 42 18 34 40 8 45 48 55 97 51 28 54 4 60 57 60 51 63 70
+output =8
+
+case =7
+input =20 2
+8 4 6 8 9 11 10 3 12 9 5 14 7 8 16 83 17 18 43 20
+output =9
+
+case =8
+input =30 -5
+105 225 110 220 115 215 120 210 125 205 130 200 135 195 140 190 145 185 150 180 155 175 160 170 165 175 160 180 155 185   
+output =15
+
+*/
+
+Solution:
+---------
+import java.util.*;
+
+class LongestSubsequence {
+    public int longestSubsequence(int[] arr, int difference) {
+        Map<Integer, Integer> subseqs = new HashMap<>();
+        
+        for (int num: arr) {
+            int count = subseqs.getOrDefault(num, 0);
+            subseqs.put(num + difference, count + 1);
+        }
+        int max = 1;
+        for (int l: subseqs.values()) {
+            max = Math.max(max, l);
+        }
+        return max;
+    }
+
+	public static void main(String args[])
+	{
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int d=sc.nextInt();
+		int arr[]=new int[n];
+		for(int i=0;i<n;i++)
+			arr[i]=sc.nextInt();
+		
+		System.out.println(new LongestSubsequence().longestSubsequence(arr, d));
+	}
+}

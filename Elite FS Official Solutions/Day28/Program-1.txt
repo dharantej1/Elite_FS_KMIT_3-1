@@ -1,0 +1,251 @@
+/*
+Problem Statement:
+------------------
+AMB mall to attract kids and to increase their economy they came to have 
+a separate Fun Zone. They opened a stall by name Soda Bears. We have an 
+LED display panel with different colours of Soda bears.
+
+You will be given a 2D integer panel representing the grid of a 
+Soda bears, we have different color-codes as positive integer in 
+panel [p][q] of each coloured soda bears. If a cell in 
+panel[p][q]=0 representing at position (p,q) is empty. 
+
+The given panel represents the state of game according to participants move. 
+Now it’s your aim to make panel to a stable state by merging Soda Bears 
+with certain conditions:
+
+1. If three or more soda bears of the same colour are adjacent 
+vertically or horizontally,"merge" them all at the same time - 
+these locations become empty.
+
+2. After merging all Soda Bears simultaneously, if an empty space on
+the panel has soda bears on top of itself, then these bears will drop
+until they hit another bear or bottom at the same time. 
+(No new soda bear will drop outside the top boundary.)
+
+3. After the above steps, there may exist more bears that can be merged. 
+If so, you need to repeat the above steps.
+
+4. If there does not exist more bears for merge (ie. the panel is stable), 
+then return the current panel.
+
+Repeat the procedure for stable panel, then return the current panel state.
+
+Input Format:
+-------------
+Line-1: Two space separated integers, M and N size of panel
+Next M lines: N space separated integers, color codes of soda bears.
+
+Output Format:
+--------------
+Print the stable format of panel.
+
+
+Sample Input:
+--------------
+8 4
+11 5 13 5
+12 13 5 13
+1 2 3 4
+11 2 3 4
+2 2 2 5
+13 13 3 4
+14 13 13 14
+12 12 11 13
+
+Sample Output:
+----------------
+0 0 0 5
+11 0 0 13
+12 0 0 4
+1 0 0 4
+11 0 13 5
+13 0 5 4
+14 5 13 14
+12 12 11 13
+
+Test Cases:
+----------
+case =1
+input =8 4
+11 5 13 5
+12 13 5 13
+1 2 3 4
+11 2 3 4
+2 2 2 5
+13 13 3 4
+14 13 13 14
+12 12 11 13
+output =0 0 0 5
+11 0 0 13
+12 0 0 4
+1 0 0 4
+11 0 13 5
+13 0 5 4
+14 5 13 14
+12 12 11 13
+
+case =2
+input =10 5
+110 5 112 113 114
+210 211 5 213 214
+310 311 3 313 314
+410 411 412 5 414
+5 1 512 3 3
+610 4 1 613 614
+710 1 2 713 714
+810 1 2 1 1
+1 1 2 2 2
+4 1 4 4 101
+output =0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+110 0 0 0 114
+210 0 0 0 214
+310 0 0 113 314
+410 0 0 213 414
+610 211 112 313 614
+710 311 412 613 714
+810 411 512 713 101
+
+case =3
+input =6 5
+20 15 15 18 19
+11 14 14 12 12
+14 14 14 12 12
+14 14 12 12 12
+12 13 11 17 19
+11 15 12 16 19
+output =0 0 0 0 0
+20 0 0 0 0
+11 0 15 0 0
+14 15 14 18 0
+12 13 11 17 0
+11 15 12 16 0
+
+case =3
+input =6 5
+20 15 15 18 19
+11 14 14 12 12
+14 14 14 12 12
+14 14 12 12 12
+12 13 11 17 19
+11 15 12 16 19
+output =0 0 0 0 0
+20 0 0 0 0
+11 0 15 0 0
+14 15 14 18 0
+12 13 11 17 0
+11 15 12 16 0
+
+case =4
+input =6 5
+20 15 15 18 19
+11 15 12 16 19
+11 14 14 12 12
+14 14 14 12 12
+14 14 12 12 12
+12 15 11 17 19
+output =0 0 0 0 0
+20 0 0 0 0
+11 0 15 0 0
+11 0 12 18 0
+14 0 14 16 0
+12 0 11 17 0
+
+case =5
+input =8 6
+1 1 1 1 1 1
+2 2 2 2 2 2
+3 3 3 3 3 3
+4 4 4 4 4 4
+5 5 5 5 5 5
+6 6 6 6 6 6
+7 7 7 7 7 7
+8 8 8 8 8 8
+output =0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+
+case =6
+input =7 8
+1 1 1 1 1 1 1 1
+2 1 1 1 1 1 1 2
+3 2 1 1 1 1 2 3
+4 3 2 1 1 2 3 4
+3 2 1 1 1 1 2 3
+2 1 1 1 1 1 1 2
+1 1 1 1 1 1 1 1
+output =0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 2
+3 0 0 0 0 0 0 3
+4 2 0 0 0 0 2 4
+3 3 0 0 0 0 3 3
+
+*/
+
+Solution:
+---------
+import java.util.*;
+
+class CandyCrush {
+    public int[][] candyCrush(int[][] panel) {
+        int N = panel.length, M = panel[0].length;
+        boolean found = true;
+        while (found) {
+            found = false;
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < M; j++) {
+                    int val = Math.abs(panel[i][j]);
+                    if (val == 0) continue;
+                    if (j < M - 2 && Math.abs(panel[i][j + 1]) == val && Math.abs(panel[i][j + 2]) == val) {
+                        found = true;
+                        int ind = j;
+                        while (ind < M && Math.abs(panel[i][ind]) == val) panel[i][ind++] = -val;
+                    }
+                    if (i < N - 2 && Math.abs(panel[i + 1][j]) == val && Math.abs(panel[i + 2][j]) == val) {
+                        found = true;
+                        int ind = i;
+                        while (ind < N && Math.abs(panel[ind][j]) == val) panel[ind++][j] = -val;           
+                    }
+                }
+            }
+            if (found) { // move positive values to the bottom, then set the rest to 0
+                for (int j = 0; j < M; j++) {
+                    int storeInd = N - 1;
+                    for (int i = N - 1; i >= 0; i--) {
+                        if (panel[i][j] > 0) {
+                            panel[storeInd--][j] = panel[i][j];
+                        }
+                    }
+                    for (int k = storeInd; k >= 0; k--) panel[k][j] = 0;
+                }
+            }
+        }
+        return panel;
+    }
+	
+	public static void main(String[] args) { 
+		Scanner sc=new Scanner(System.in);
+		int m=sc.nextInt();
+		int n=sc.nextInt();
+		int[][] panel = new int[m][n]; 
+		for(int i=0; i<m; i++)
+			for(int j=0; j<n; j++)
+			panel[i][j] = sc.nextInt();
+		int[][] result = new CandyCrush().candyCrush(panel);
+		for(int[] res: result){
+			for(int i: res){
+				System.out.print(i+" "); 
+			}
+			System.out.println();
+		}
+	}
+}
